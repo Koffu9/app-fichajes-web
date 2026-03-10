@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+    --swiper-navigation-color: #f5a623;
+    --swiper-navigation-size: 4px;
+}
+.swiper {
+    --swiper-navigation-size: 5px !important;
+}
+.banner {
+  background-image: linear-gradient(165deg, #ffb356 17%, #264653 35%) !important;
+  font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+}
+
+.banner-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0px;
+  height: 60px;
+}
+
+.banner-title {
+  color: white;
+  letter-spacing: 1px;
+  line-height: 1.8em;
+  font-size: 18px;
+}
+
+.banner-socials {
+  display: flex;
+  gap: 22px;
+  margin-right: 20px;
+}
+
+.nav-box{
+  width: 100%;
+}
+
+.nav-wrap{
+  max-width: 1350px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 70px;
+  background-color: rgba(128, 128, 128, 0.096);
+  border-radius: 0 0 10px 10px;
+  background-image: linear-gradient(340deg, #ffb356 18%, #f1f5fa 22%);
+}
+
+.nav-logo{
+  max-width: 54px;
+  max-height: 54px;
+}
+
+.nav-list{
+  font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 15px;
+  a{
+      text-decoration: none;
+      color: black;
+  }
+
+}
+
+.nav-list > li{
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom:5px;
+  }
+
+.submenu {
+    left: -10px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    width: 250px;
+    padding: 16px 0;
+    border-top:3px solid #1a3a4a;
+    top: 100%;
+    background: white;
+    list-style: none;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.submenu li {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.submenu .submenu {
+    top: -3px;
+    left: 100%;
+    margin-left: 0; 
+    border-top: 3px solid #1a3a4a; 
+}
+.nav-button{
+  max-width: 140px;
+  padding: 7px 14px;
+  border-radius: 5px;
+  border: none;
+  background-color: #1a3a4a;
+  color:white;
+  font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+  cursor: pointer;
+}
+
+
+/* Estilos del footer*/
+footer{
+    border-top: 1px solid orange;
+}
+.footer-wrap{
+  max-width: 1080px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.footer-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 40px 0;
+
+}
+
+.logo-nombre{
+  width: 280px;
+  height: 70px;
+}
+
+.footer-button {
+  max-width: 140px;
+  padding: 7px 14px;
+  border-radius: 5px;
+  border: none;
+  background-color: #1a3a4a;
+  color:white;
+  font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+  cursor: pointer;
+  margin-right: 80px;
+}
+
+.footer-links{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+}
+
+.footer-section{
+  display:flex;
+  flex-direction: column;
+  ul{
+    display:flex;
+    flex-direction: column;
+    list-style: none;
+    text-decoration: none;
+    gap: 12px;
+  }
+}
+
+.footer-section h4 {
+    width: 55px;
+    color: #1a3a4a;
+    border-bottom: 2px solid #f5a623;
+    padding-bottom: 4px;
+    margin-bottom: 30px;
+}
+
+.footer-section li a{
+  text-decoration: none;
+  color: #1a3a4a;
+}
+
+.footer-bottom{
+  width:100%;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  color: white;
+  background-color: #264653;
+  padding: 20px 40px;
+  border-radius: 5px;
+  font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+  font-size: 13px;
+}
+
+.footer-bottom a {
+    color: #f5a623;
+    text-decoration: none;
+}
+

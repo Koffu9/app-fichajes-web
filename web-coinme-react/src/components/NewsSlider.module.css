@@ -1,0 +1,99 @@
+.newsSection {
+    width: 1500px;
+    margin: 0 auto;
+    font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+}
+
+.slide {
+    position: relative;
+    height: 650px;
+    display: flex;
+    align-items: center;
+}
+
+.slideBackground {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.slideCard {
+    position: relative;
+    z-index: 2;
+    background: white;
+    padding: 40px;
+    max-width: 380px;
+    margin-left: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.slideCard h2 {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    line-height: 1.4;
+}
+
+.slideCard p {
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.date {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.readMore {
+    background: #264653;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    align-self: flex-start;
+}
+
+.swiperWrapper {
+    position: relative;
+}
+.prevBtn, .nextBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.prevBtn:hover, .nextBtn:hover {
+    background: #00bcd4;
+}
+
+.prevBtn:hover svg, .nextBtn:hover svg {
+    stroke: white;
+}
+
+.prevBtn { left: 20px; }
+.nextBtn { right: 20px; }
+
+.pagination {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+}

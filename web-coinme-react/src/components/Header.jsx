@@ -1,0 +1,88 @@
+import '../index.css'
+import { FacebookIcon } from './icons/FacebookIcon'
+import { LinkedInIcon } from './icons/Linkedinicon'
+import { Youtubeicon } from './icons/Youtubeicon'
+import { NavItem } from './NavItem'
+import logo_escudo from '../assets/logo_escudo.png'
+export function Header() {
+    return (
+        <header>
+            <div className="banner">
+                <div className="banner-wrap">
+                    <span className="banner-title">
+                        <strong>COLEGIO OFICIAL DE INGENIEROS DE MINAS DEL NOROESTE DE ESPAÑA</strong>
+                    </span>
+                    <div className="banner-socials">
+                        <a href="https://www.facebook.com/people/Colegio-Oficial-de-Ingenieros-de-Minas-del-Noroeste-de-Espa%C3%B1a/100055051765057/" aria-label="Facebook"><FacebookIcon /></a>
+                        <a href="https://www.linkedin.com/in/colegio-oficial-de-ingenieros-de-minas-del-noroeste-de-espa%C3%B1a-coimne-903331200/" aria-label="LinkedIn"><LinkedInIcon /></a>
+                        <a href="https://www.youtube.com/channel/UCznCYMJ7_J4hPuUXuQsf4Zg" aria-label="YouTube"><Youtubeicon /></a>
+                    </div>
+                </div>
+            </div>
+            <div className="nav-box">
+                <div className="nav-wrap">     
+                    <img className='nav-logo' src={logo_escudo} alt="Logo COIMNE" />                    
+                    <nav className='nav-menu'>                       
+                        <ul className='nav-list'>
+                            <li><a href="">INICIO</a></li>
+                            <NavItem label="UNETE"
+                                submenu={[
+                                    { label: "Toda la información", href: "#" },
+                                    { label: "Colegiación", href: "#" },
+                                    { label: "Precolegiación", href: "#" },]}></NavItem>
+                            <NavItem label="CONOCENOS"
+                                submenu={[
+                                    { label: "EL COLEGIO", 
+                                      submenu: [{label: "Misión visión y valores", href:"#"},
+                                                {label: "Junta Directiva", href:"#"},
+                                                {label: "Normativa colegial", href:"#"},
+                                                {label: "Nuestros colegiados", href:"#"},
+                                                {label: "Memoria de actividades", href:"#"},
+                                      ]},
+                                      { label: "NUESTRA PROFESIÓN", 
+                                      submenu: [{label: "Historia", href:"#"},
+                                                {label: "Competencias profesionales", href:"#"},
+                                                {label: "Estudiar ingeniería", href:"#"},
+                                                {label: "Requisitos para la colegiación", href:"#"},
+                                                {label: "Salidas laborales", href:"#"},
+                                      ]},
+                                ]}>
+                                
+                                </NavItem>                            
+                                <NavItem label="SERVICIOS"
+                                submenu={[
+                                    { label: "Toda la información", href: "#" },
+                                    { label: "Visado electrónico", href: "#" },
+                                    { label: "Certificación de personas", href: "#" },
+                                    { label: "Listados profesionales", href: "#" },
+                                    { label: "Directorio colegiados", href: "#" },
+                                    { label: "Promoción competencias", href: "#" },
+                                    { label: "Apoya imagen personal", href: "#" },
+                                    { label: "Becas", href: "#" },
+                                    { label: "Empleo y Bolsa de trabajo", href: "#" },
+                                    { label: "Convenios y Seguros", href: "#" },
+                                    { label: "Actividades formativas", href: "#" },]}></NavItem>
+                            <li><a href="">CURSOS</a></li>
+                            <NavItem label="ACTIVIDADES"
+                                submenu={[
+                                    { label: "Noticias", href: "#" },
+                                    { label: "Eventos", href: "#" },]}></NavItem>
+                            <NavItem label="BIBLIOTECA"
+                                submenu={[
+                                    { label: "KIOSKO DIGITAL", href: "#" },
+                                    { label: "REVISTA DIGITAL", href: "#" },
+                                    { label: "Revistas impresas", href: "#" },
+                                    { label: "Publicaciones técnicas", href: "#" },
+                                    { label: "Documentación técnica", href: "#" },
+                                    { label: "Normativas y legislación", href: "#" },
+                                    { label: "Otros documentos", href: "#" },]}></NavItem>
+                            <li><a href="">CONTACTO</a></li>
+
+                        </ul>
+                    </nav>
+                    <button className='nav-button'>ACCESO PRIVADO</button>
+                </div>
+            </div>
+        </header>
+    )
+}

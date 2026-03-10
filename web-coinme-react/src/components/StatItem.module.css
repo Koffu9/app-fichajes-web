@@ -1,0 +1,31 @@
+.statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.432);
+    font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+    justify-content: center;
+    padding: 15px 0;
+    width: 220px;
+}
+
+.statItem h2 {
+    font-size: 2.5rem;
+    color: #264653;
+    font-weight: 300;
+    margin-bottom: 10px;
+    width: 100%;
+    
+}
+
+.statItem p {
+    font-size: 15px;
+    color: #264653;
+    letter-spacing: 1px;
+    padding: 10px 25px;
+    line-height: 1em;
+    font-weight: 550;
+    
+}

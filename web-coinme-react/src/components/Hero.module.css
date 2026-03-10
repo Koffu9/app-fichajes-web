@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-height: 500px;
+}
+
+.hero video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.heroRight {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+}
+
+.heroRightTop {
+    flex: 1;
+    display: flex;
+    background: white;
+    padding: 40px;
+    align-items: center;
+
+}
+
+.heroRightTop h2{
+    font-family: 'Open Sans';
+    font-weight: 700;
+    font-variant: small-caps;
+    font-size: 39px;
+    letter-spacing: 2px;
+}
+.heroRightBottom {
+    flex: 1;
+    background-image: linear-gradient(180deg, #264653 52%, #ffffff 100%);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.heroRightBottom h2{
+    font-weight: 700;
+    line-height: 0.7em;
+    text-shadow: 0em 0em 0.3em rgba(0, 0, 0, 0.4);
+    margin-bottom: 30px;
+}
+
+.heroRightBottom button{
+    cursor: pointer;
+    font-weight: 700;
+    color: #264653;
+    background-image: linear-gradient(103deg, #ffb356 0%, #ffd088 20%, #f1f5fa 72%, #ffb65e 100%);
+    border: #264653;;
+    border-radius: 7px;
+    padding: 7px 50px;
+    line-height: 1.7em;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+

@@ -11,3 +11,33 @@
 //
 // TODO: Arrancar servidor
 //   app.listen(PORT) en puerto 3000
+
+import express from 'express';
+import cors from 'cors';
+import session from 'express-session';
+
+const app = express();
+const PORT = 3000;
+
+// Middlewares
+app.use(cors({
+  origin: 'http://localhost:5173', //Puerto que usa Vite por defecto al hacer npm run dev.
+  credentials: true
+}));
+
+app.use(express.json());
+
+app.use(session({
+  secret: 'app_fichajes',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    maxAge: 8 * 60 * 60 * 1000 // 8 horas
+  }
+}));
+
+// Arrancar servidor
+app.listen(PORT, () => {
+  console.log(`Servidor en http://localhost:${PORT}`);
+});

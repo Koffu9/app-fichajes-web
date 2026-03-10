@@ -15,6 +15,7 @@
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
+import authRoutes from './routes/auth.js';
 
 const app = express();
 const PORT = 3000;
@@ -36,6 +37,9 @@ app.use(session({
     maxAge: 8 * 60 * 60 * 1000 // 8 horas
   }
 }));
+
+//Rutas
+app.use('/api/auth', authRoutes);
 
 // Arrancar servidor
 app.listen(PORT, () => {

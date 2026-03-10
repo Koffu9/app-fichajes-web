@@ -1,4 +1,4 @@
-TODO: authMiddleware(req, res, next)
+// TODO: authMiddleware(req, res, next)
 //   Comprueba que hay una sesión activa
 //   Si no hay sesión devuelve error 401
 

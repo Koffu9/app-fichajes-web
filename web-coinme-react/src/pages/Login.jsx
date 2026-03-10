@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-// import styles from './Login.module.css'; // Asegúrate de tener el CSS
+// import styles from './Login.module.css';
 
 export function Login() {
     const [email, setEmail] = useState('');
@@ -13,7 +13,6 @@ export function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Regla 6: credentials include es obligatorio
             const res = await fetch('http://localhost:3000/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -25,7 +24,7 @@ export function Login() {
 
             if (res.ok) {
                 login(data.user);
-                // Redirección según rol
+                
                 if (data.user.rol === 'admin') {
                     navigate('/admin/dashboard');
                 } else {

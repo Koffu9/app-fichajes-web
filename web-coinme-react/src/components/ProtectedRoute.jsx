@@ -7,7 +7,7 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
     // Si no hay usuario, al login
     if (!user) return <Navigate to="/login" replace />;
 
-    // Si el rol no está permitido (ej: trabajador intentando entrar a admin), a la home
+    // Si el rol no está permitido a la home
     if (allowedRoles && !allowedRoles.includes(user.rol)) {
         return <Navigate to="/" replace />;
     }

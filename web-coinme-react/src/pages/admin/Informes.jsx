@@ -1,12 +1,19 @@
-// Informes de horas (solo admin)
-// ============================================================
-//
-// TODO: Informe mensual
-//   Selector de mes, año y trabajador (opcional)
-//   Llamar a GET /api/informes/mensual
-//   Mostrar tabla con horas por trabajador
-//
-// TODO: Informe por trabajador
-//   Selector de trabajador y rango de fechas
-//   Llamar a GET /api/informes/trabajador
-//   Mostrar tabla con detalle de fichajes y total de hora
+import { useState } from 'react';
+
+export function Informes() {
+    const [datos, setDatos] = useState([]);
+
+    const generar = async (tipo) => {
+        const res = await fetch(`http://localhost:3000/api/informes/${tipo}`, { credentials: 'include' });
+        const data = await res.json();
+        setDatos(data);
+    };
+
+    return (
+        <div>
+            <h2>Informes</h2>
+            <button onClick={() => generar('mensual')}>Informe Mensual</button>
+            {/* Tabla de resultados */}
+        </div>
+    );
+}

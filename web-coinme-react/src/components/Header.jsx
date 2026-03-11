@@ -1,5 +1,6 @@
 import '../index.css'
 import { Link } from 'react-router-dom' 
+import { useAuth } from '../context/AuthContext.jsx' // Añadido: Importamos el hook
 import { FacebookIcon } from './icons/FacebookIcon'
 import { LinkedInIcon } from './icons/Linkedinicon'
 import { Youtubeicon } from './icons/Youtubeicon'
@@ -7,6 +8,9 @@ import { NavItem } from './NavItem'
 import logo_escudo from '../assets/logo_escudo.png'
 
 export function Header() {
+    // Añadido: Extraemos el usuario y la función de cerrar sesión
+    const { user, logout } = useAuth();
+
     return (
         <header>
             <div className="banner">
@@ -23,13 +27,11 @@ export function Header() {
             </div>
             <div className="nav-box">
                 <div className="nav-wrap">     
-                    { }
                     <Link to="/">
                         <img className='nav-logo' src={logo_escudo} alt="Logo COIMNE" /> 
                     </Link>                    
                     <nav className='nav-menu'>                       
                         <ul className='nav-list'>
-                            { }
                             <li><Link to="/">INICIO</Link></li>
                             <NavItem label="UNETE"
                                 submenu={[
@@ -86,8 +88,15 @@ export function Header() {
 
                         </ul>
                     </nav>
-                    {/* Botón de acceso privado */}
-                    <Link to="/login" className='nav-button'>ACCESO PRIVADO</Link>
+
+                    {}
+                    {user ? (
+                        <button onClick={logout} className='nav-button' style={{ backgroundColor: '#d32f2f' }}>
+                            CERRAR SESIÓN
+                        </button>
+                    ) : (
+                        <Link to="/login" className='nav-button'>ACCESO PRIVADO</Link>
+                    )}
                 </div>
             </div>
         </header>

@@ -34,3 +34,89 @@
 //
 // TODO: obtenerMotivospausa()
 //   SELECT * FROM motivos_pausa WHERE activo = 
+
+//Función que devuelve el ultimo fichaje del usuario parado como parametro.
+export async function obtenerUltimoFichaje(usuarioId) {
+  const [rows] = await pool.query(
+    'SELECT * FROM fichajes WHERE usuario_id = ? ORDER BY fecha_hora DESC LIMIT 1',
+    [usuarioId]
+  );
+  return rows[0] || null;
+}
+
+//Función que inserta el fichaje en la tabla fichajes.
+export async function insertarFichaje(usuarioId, tipo, fechaHora, motivoId = null, observaciones = null) {
+  const [result] = await pool.query(
+    'INSERT INTO fichajes (usuario_id, tipo, fecha_hora, motivo_id, observaciones) VALUES (?, ?, ?, ?, ?)',
+    [usuarioId, tipo, fechaHora, motivoId, observaciones]
+  );
+  return result.insertId;
+}
+
+//Función que obtiene los fichajes por fecha, si es el trabajador quien la ejecuta mandará su id, si es el admin, podrá elegir que userid usar para filtrar.
+export async function obtenerTodosFichajesPorFechas(desde, hasta, usuarioId = null) {
+  let query = 'SELECT * FROM fichajes WHERE fecha_hora BETWEEN ? AND ?';
+  const params = [desde, hasta];
+
+  //Si le mandamos el usuarioId (por ejemplo si la llamada es del trabajador) se añade estos parametros a la query
+  if (usuarioId) {
+    query += ' AND usuario_id = ?';
+    params.push(usuarioId);
+  }
+
+  //Añadimos al final que queremos que lo ordene desde el último fichaje hasta el primero
+  query += ' ORDER BY fecha_hora ASC';
+  const [rows] = await pool.query(query, params);
+  return rows;
+}
+
+//Función que devuelve un fichaje filtrado por su id
+export async function obtenerFichajePorId(id) {
+  const [rows] = await pool.query(
+    'SELECT * FROM fichajes WHERE id = ?',
+    [id]
+  );
+  return rows[0] || null;
+}
+
+//Función para crear un fichaje manualmente (Solo admin)
+export async function insertarFichajeAdmin(usuarioId, tipo, fechaHora, motivoId = null, observaciones = null, modificadoPor) {
+  const [result] = await pool.query(
+    'INSERT INTO fichajes (usuario_id, tipo, fecha_hora, motivo_id, observaciones, modificado_por) VALUES (?, ?, ?, ?, ?, ?)',
+    [usuarioId, tipo, fechaHora, motivoId, observaciones, modificadoPor]
+  );
+  return result.insertId;
+}
+
+//Función que se ejecuta cuando un administrador modifica un fichaje y lo actualiza en la bd.
+export async function modificarFichaje(id, tipo, fechaHora, motivoId = null, observaciones = null, modificadoPor) {
+  await pool.query(
+    'UPDATE fichajes SET tipo = ?, fecha_hora = ?, motivo_id = ?, observaciones = ?, modificado_por = ? WHERE id = ?',
+    [tipo, fechaHora, motivoId, observaciones, modificadoPor, id]
+  );
+}
+
+//Función que devuelve los fichajes de un usuario en una fecha concreta.
+export async function obtenerFichajesDelDia(usuarioId, fecha) {
+  const [rows] = await pool.query(
+    'SELECT * FROM fichajes WHERE usuario_id = ? AND DATE(fecha_hora) = ? ORDER BY fecha_hora ASC',
+    [usuarioId, fecha]
+  );
+  return rows;
+}
+
+//Función que se utiliza para subir una alerta cuando sea necesario a la tabla alertas
+export async function insertarAlerta(usuarioId, fecha, horas) {
+  await pool.query(
+    'INSERT INTO alertas_jornada (usuario_id, fecha, horas) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE horas = ?, resuelta = 0',
+    [usuarioId, fecha, horas, horas]
+  );
+}
+
+//Función que devuelve los motivos de la pausa de un trabajador.
+export async function obtenerMotivosPausa() {
+  const [rows] = await pool.query(
+    'SELECT * FROM motivos_pausa WHERE activo = 1'
+  );
+  return rows;
+}

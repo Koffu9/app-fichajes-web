@@ -16,6 +16,7 @@ import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import authRoutes from './routes/auth.js';
+import fichajesRoutes from './routes/fichajes.js';
 
 const app = express();
 const PORT = 3000;
@@ -40,6 +41,7 @@ app.use(session({
 
 //Rutas
 app.use('/api/auth', authRoutes);
+app.use('/api/fichajes', fichajesRoutes);
 
 // Arrancar servidor
 app.listen(PORT, () => {

@@ -40,7 +40,7 @@ router.post('/fichar', authMiddleware, async (req, res) => {
 // POST /api/auth/descanso
 router.post('/descanso', authMiddleware, async (req, res) => {
     const userId = req.session.usuario.id;
-    const { motivoId } = req.body;
+    const motivoId = req.body?.motivoId || null;
     const resultado = await registrarPausa(userId, motivoId);
     return res.status(200).json({ ok: true, ...resultado });
 });
@@ -50,7 +50,7 @@ router.get('/misFichajes', authMiddleware, async (req, res) => {
     const userId = req.session.usuario.id;
     const { fechaInicio, fechaFin } = req.query;
     const fichajes = await obtenerFichajesUsuario(userId, fechaInicio, fechaFin);
-    return res.status(200).json({ ok: true, ...fichajes });
+    return res.status(200).json({ ok: true, fichajes });
 });
 
 // GET /api/fichajes/estado
@@ -82,3 +82,5 @@ router.put('/modificar/:id', soloAdmin, async (req, res) => {
     const resultado = await editarFichaje(req.params.id, tipo, fechaHora, motivoId, observaciones, modificadoPor);
     return res.status(200).json(resultado);
 });
+
+export default router;

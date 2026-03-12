@@ -35,6 +35,9 @@
 // TODO: obtenerMotivospausa()
 //   SELECT * FROM motivos_pausa WHERE activo = 
 
+
+import pool from '../db.js';
+
 //Función que devuelve el ultimo fichaje del usuario pasado como parametro.
 export async function obtenerUltimoFichaje(usuarioId) {
     const [rows] = await pool.query(

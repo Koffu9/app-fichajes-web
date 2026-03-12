@@ -26,7 +26,7 @@
 
 import express from 'express';
 import { authMiddleware, soloAdmin } from '../middleware/auth.js';
-import { obtenerEstado, registrarFichaje, registrarPausa, obtenerFichajesUsuario, obtenerTodosFichajes, altaFichajeAdmin, editarFichaje } from '../services/fichajesService.js';
+import { obtenerEstado, registrarFichaje, registrarPausa, obtenerFichajesUsuario, obtenerTodosFichajes, altaFichajeAdmin, editarFichaje, obtenerMotivosPausaService } from '../services/fichajesService.js';
 
 const router = express.Router();
 
@@ -81,6 +81,12 @@ router.put('/modificar/:id', soloAdmin, async (req, res) => {
     const modificadoPor = req.session.usuario.id;
     const resultado = await editarFichaje(req.params.id, tipo, fechaHora, motivoId, observaciones, modificadoPor);
     return res.status(200).json(resultado);
+});
+
+// GET /api/fichajes/motivos-pausa
+router.get('/motivos-pausa', authMiddleware, async (req, res) => {
+    const motivos = await obtenerMotivosPausaService();
+    return res.status(200).json({ ok: true, motivos });
 });
 
 export default router;

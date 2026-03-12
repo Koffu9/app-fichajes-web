@@ -53,7 +53,7 @@ export async function insertarFichaje(usuarioId, tipo, fechaHora, motivoId = nul
     return result.insertId;
 }
 
-//Función que obtiene los fichajes por fecha, si es el trabajador quien la ejecuta mandará su id, si es el admin, podrá elegir que userid usar para filtrar.
+//Función que obtiene los fichajes por fecha, además el admin podrá elegir el trabajador por el que filtrar, o ver todos los fichajes de ese día.
 export async function obtenerTodosFichajesPorFechas(desde, hasta, usuarioId = null) {
     let query = 'SELECT * FROM fichajes WHERE fecha_hora BETWEEN ? AND ?';
     const params = [desde, hasta];
@@ -69,6 +69,23 @@ export async function obtenerTodosFichajesPorFechas(desde, hasta, usuarioId = nu
     const [rows] = await pool.query(query, params);
     return rows;
 }
+
+//Misma función que obtenerTodosFichajesPorFechas  pero esta para que un trabajador pueda ver un historias de sus fichajes.
+export async function obtenerFichajesPorUsuario(usuarioId, desde = null, hasta = null) {
+    let query = 'SELECT * FROM fichajes WHERE usuario_id = ?';
+    const params = [usuarioId];
+
+    //Si se le pasa una fecha de inicio y una de final, filtrará por fechas.
+    if (desde && hasta) {
+        query += ' AND fecha_hora BETWEEN ? AND ?';
+        params.push(desde, hasta);
+    }
+
+    query += ' ORDER BY fecha_hora ASC';
+    const [rows] = await pool.query(query, params);
+    return rows;
+}
+
 
 //Función que devuelve un fichaje filtrado por su id
 export async function obtenerFichajePorId(id) {

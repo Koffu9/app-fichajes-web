@@ -13,7 +13,8 @@ import {
     modificarFichaje,
     obtenerFichajesDelDia,
     insertarAlerta,
-    obtenerMotivosPausa
+    obtenerMotivosPausa,
+    obtenerFichajesPorUsuario
 } from '../storage/fichajesStorage.js';
 
 
@@ -32,7 +33,7 @@ export async function obtenerEstado(usuarioId) {
         return { proximoTipoFichar: null, pausaVisible: true, proximoTipoPausa: 'pausa_fin' };
     }
 
-    return { proximoTipo: 'entrada', ultimoFichaje: ultimo };
+    return { proximoTipoFichar: 'entrada', ultimoFichaje: ultimo };
 }
 
 // Registra un fichaje del trabajador
@@ -91,7 +92,7 @@ async function calcularYAlertarJornada(usuarioId, fechaHora) {
 
 // Obtiene los fichajes de un usuario por fechas
 export async function obtenerFichajesUsuario(usuarioId, desde, hasta) {
-    return await obtenerTodosFichajesPorFechas(desde, hasta, usuarioId);
+    return await obtenerFichajesPorUsuario(usuarioId, desde, hasta);
 }
 
 // Obtiene todos los fichajes (solo admin), con filtro opcional por usuario

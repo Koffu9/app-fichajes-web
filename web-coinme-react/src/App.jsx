@@ -6,6 +6,10 @@ import { Home } from './pages/Home.jsx'
 import { Login } from './pages/Login.jsx'
 import { Fichar } from './pages/trabajador/Fichar.jsx'
 import { Dashboard } from './pages/admin/Dashboard.jsx'
+import { Fichajes } from './pages/admin/Fichajes.jsx'
+import { Ausencias } from './pages/admin/Ausencias.jsx'
+import { Informes } from './pages/admin/Informes.jsx'
+
 
 function App() {
   return (

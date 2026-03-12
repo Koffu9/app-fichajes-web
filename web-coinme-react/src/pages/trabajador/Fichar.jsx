@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export function Fichar() {
-    const [estado, setEstado] = useState({ proximoTipo: 'entrada', ultimoFichaje: null, enPausa: false });
+    const [estado, setEstado] = useState({ proximoTipoFichar: 'entrada', pausaVisible: false, proximoTipoPausa: null });
     const [motivos, setMotivos] = useState([]);
     const [motivoId, setMotivoId] = useState('');
     const [misFichajes, setMisFichajes] = useState([]);
@@ -18,8 +18,8 @@ export function Fichar() {
             // Cargar Motivos de pausa
             const resMotivos = await fetch('http://localhost:3000/api/fichajes/motivos-pausa', { credentials: 'include' });
             const dataMotivos = await resMotivos.json();
-            setMotivos(dataMotivos);
-            if (dataMotivos.length > 0) setMotivoId(dataMotivos[0].id);
+            setMotivos(dataMotivos.motivos);
+            if (dataMotivos.motivos.length > 0) setMotivoId(dataMotivos.motivos[0].id);
 
             // Cargar historial
             obtenerHistorial();
@@ -43,8 +43,7 @@ export function Fichar() {
         await fetch('http://localhost:3000/api/fichajes/fichar', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ tipo: estado.proximoTipo })
+            credentials: 'include'
         });
         refrescarTodo();
     };
@@ -55,7 +54,7 @@ export function Fichar() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ motivoId: motivoId })
+            body: JSON.stringify({ motivoId })
         });
         refrescarTodo();
     };
@@ -63,14 +62,14 @@ export function Fichar() {
     // 5. Ver mis fichajes con filtros
     const obtenerHistorial = async () => {
         const params = new URLSearchParams();
-        if (filtros.desde) params.append('desde', filtros.desde);
-        if (filtros.hasta) params.append('hasta', filtros.hasta);
+        if (filtros.desde) params.append('fechaInicio', filtros.desde);
+        if (filtros.hasta) params.append('fechaFin', filtros.hasta);
 
-        const res = await fetch(`http://localhost:3000/api/fichajes/misFichajes?${params.toString()}`, { 
-            credentials: 'include' 
+        const res = await fetch(`http://localhost:3000/api/fichajes/misFichajes?${params.toString()}`, {
+            credentials: 'include'
         });
         const data = await res.json();
-        setMisFichajes(Array.isArray(data) ? data : []);
+        setMisFichajes(Array.isArray(data.fichajes) ? data.fichajes : []);
     };
 
     return (
@@ -78,8 +77,8 @@ export function Fichar() {
             <h2>Panel de Fichaje</h2>
 
             <div style={{ margin: '20px', border: '1px solid #ddd', padding: '20px', borderRadius: '10px' }}>
-                {/* Selector de motivo: Solo aparece si el trabajador NO está en pausa y ya ha entrado */}
-                {estado.proximoTipo !== 'entrada' && !estado.enPausa && (
+                {/* Selector de motivo: Solo aparece si estás dentro de la jornada y NO estás en pausa */}
+                {estado.pausaVisible && estado.proximoTipoPausa === 'pausa_inicio' && (
                     <div style={{ marginBottom: '15px' }}>
                         <label>Motivo de pausa: </label>
                         <select value={motivoId} onChange={(e) => setMotivoId(e.target.value)}>
@@ -91,25 +90,29 @@ export function Fichar() {
                 )}
 
                 <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
-                    {/* Botón Principal: Entrada / Salida */}
-                    <button onClick={handleFichar} style={{ padding: '15px 30px', fontSize: '1.1rem' }}>
-                        {estado.proximoTipo.toUpperCase()}
+                    {/* Botón Principal: Entrada / Salida — desactivado si estás en pausa */}
+                    <button
+                        onClick={handleFichar}
+                        disabled={estado.proximoTipoFichar === null}
+                        style={{ padding: '15px 30px', fontSize: '1.1rem' }}
+                    >
+                        {estado.proximoTipoFichar ? estado.proximoTipoFichar.toUpperCase() : 'EN PAUSA'}
                     </button>
 
-                    {/* Botón Pausa: Aparece si ya se fichó la entrada */}
-                    {estado.proximoTipo !== 'entrada' && (
-                        <button 
-                            onClick={handlePausa} 
+                    {/* Botón Pausa: Solo visible si pausaVisible es true */}
+                    {estado.pausaVisible && (
+                        <button
+                            onClick={handlePausa}
                             style={{ padding: '15px 30px', fontSize: '1.1rem', backgroundColor: '#ffc107' }}
                         >
-                            {estado.enPausa ? 'FIN PAUSA' : 'INICIAR PAUSA'}
+                            {estado.proximoTipoPausa === 'pausa_fin' ? 'FIN PAUSA' : 'INICIAR PAUSA'}
                         </button>
                     )}
                 </div>
 
                 {estado.ultimoFichaje && (
                     <p style={{ marginTop: '20px', color: '#555' }}>
-                        Último registro: <strong>{estado.ultimoFichaje.tipo}</strong> a las {estado.ultimoFichaje.hora}
+                        Último registro: <strong>{estado.ultimoFichaje.tipo}</strong> a las {new Date(estado.ultimoFichaje.fecha_hora).toLocaleTimeString()}
                     </p>
                 )}
             </div>
@@ -128,15 +131,15 @@ export function Fichar() {
                     <tr style={{ background: '#f4f4f4' }}>
                         <th>Fecha</th>
                         <th>Tipo</th>
-                        <th>Detalle/Motivo</th>
+                        <th>Motivo</th>
                     </tr>
                 </thead>
                 <tbody>
                     {misFichajes.map((f, i) => (
                         <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
-                            <td>{new Date(f.fecha).toLocaleString()}</td>
+                            <td>{new Date(f.fecha_hora).toLocaleString()}</td>
                             <td>{f.tipo.toUpperCase()}</td>
-                            <td>{f.motivo || '-'}</td>
+                            <td>{f.motivo_id || '-'}</td>
                         </tr>
                     ))}
                 </tbody>

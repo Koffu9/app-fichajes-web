@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom' 
 import { AuthProvider } from './context/AuthContext.jsx' 
 import { Header } from './components/Header.jsx'
@@ -24,7 +23,10 @@ function App() {
               
               {/* Rutas del sistema (se activan tras el login) */}
               <Route path="/trabajador/fichar" element={<Fichar />} />
+              <Route path="/admin/ausencias" element={<Ausencias />} />
               <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/fichajes" element={<Fichajes />} />
+              <Route path="/admin/informes" element={<Informes />} />
             </Routes>
           </main>
           <Footer/>

@@ -57,7 +57,7 @@ export async function insertarFichaje(usuarioId, tipo, fechaHora, motivoId = nul
 }
 
 //Función que obtiene los fichajes por fecha, además el admin podrá elegir el trabajador por el que filtrar, o ver todos los fichajes de ese día.
-export async function obtenerTodosFichajesPorFechas(desde, hasta, usuarioId = null) {
+export async function obtenerTodosFichajesPorFechas(desde = null, hasta = null, usuarioId = null) {
     let query = 'SELECT * FROM fichajes WHERE fecha_hora BETWEEN ? AND ?';
     const params = [desde, hasta];
 

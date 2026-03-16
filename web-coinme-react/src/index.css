@@ -312,3 +312,119 @@ input:focus {
   text-align: center;
   margin-bottom: 15px;
 }
+/* --- ADICIÓN: Adaptación para Dispositivos Móviles --- */
+
+@media (max-width: 768px) {
+    /* Banner superior */
+    .banner-wrap {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .banner-title {
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+    .banner-socials {
+        margin-right: 0;
+        gap: 15px;
+    }
+
+    /* Navegación */
+    .nav-wrap {
+        height: auto;
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        background-image: none; /* Quitamos el gradiente lateral en móvil para que se vea limpio */
+        background-color: #f1f5fa;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .nav-list > li {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Submenús en móvil: los hacemos estáticos para que no floten fuera de la pantalla */
+    .submenu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        display: none; /* Se recomienda usar JS para togglear esto, o dejarlo block si quieres que se vea siempre */
+        border-left: 2px solid #f5a623;
+        border-top: none;
+        padding-left: 20px;
+    }
+
+    .nav-list > li:hover .submenu {
+        display: flex;
+    }
+
+    .submenu .submenu {
+        left: 0;
+        top: 0;
+    }
+
+    /* Footer */
+    .footer-top {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .footer-links {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil en vez de 4 */
+        gap: 30px;
+        padding: 0 20px;
+    }
+
+    .footer-section {
+        align-items: center;
+    }
+
+    .footer-section h4 {
+        margin-bottom: 15px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    /* Login y Formularios */
+    .login-container {
+        padding: 20px;
+    }
+
+    .login-card {
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-links {
+        grid-template-columns: 1fr; /* 1 sola columna en pantallas muy pequeñas */
+    }
+
+    .nav-logo {
+        max-width: 45px;
+    }
+
+    .login-card h2 {
+        font-size: 20px;
+    }
+}

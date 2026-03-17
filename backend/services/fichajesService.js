@@ -14,9 +14,10 @@ import {
     obtenerFichajesDelDia,
     insertarAlerta,
     obtenerMotivosPausa,
-    obtenerFichajesPorUsuario
+    obtenerFichajesPorUsuario,
+    insertarHistorialJornada 
 } from '../storage/fichajesStorage.js';
-
+import { JORNADA_HORAS } from '../config.js';
 
 /* Determina qué tipo de fichaje le toca al usuario 
 se obtiene el ultimo fichaje y en base a que es, se prepara el siguiente fichaje*/ 
@@ -59,34 +60,55 @@ export async function registrarPausa(usuarioId, motivoId = null) {
   return { tipo: proximoTipoPausa };
 }
 
-// Calcula las horas trabajadas del día y genera alerta si son menos de 8
+// Calcula las horas trabajadas del día y genera alerta si son menos de 8 
 async function calcularYAlertarJornada(usuarioId, fechaHora) {
     const fecha = fechaHora.toISOString().split('T')[0]; // YYYY-MM-DD
     const fichajes = await obtenerFichajesDelDia(usuarioId, fecha);
 
     let horasTrabajadas = 0;
+    let horasPausa = 0;
     let horaEntrada = null;
     let horaPausaInicio = null;
+    let primeraEntrada = null;
 
     for (const fichaje of fichajes) {
         const hora = new Date(fichaje.fecha_hora);
 
         if (fichaje.tipo === 'entrada') {
             horaEntrada = hora;
+            if (!primeraEntrada) primeraEntrada = hora;
+
         } else if (fichaje.tipo === 'pausa_inicio' && horaEntrada) {
             horasTrabajadas += (hora - horaEntrada) / (1000 * 60 * 60);
             horaPausaInicio = hora;
             horaEntrada = null;
+
         } else if (fichaje.tipo === 'pausa_fin') {
+            if (horaPausaInicio) {
+                horasPausa += (hora - horaPausaInicio) / (1000 * 60 * 60); // acumula las horas de pausa.
+            }
             horaEntrada = hora;
             horaPausaInicio = null;
+
         } else if (fichaje.tipo === 'salida' && horaEntrada) {
             horasTrabajadas += (hora - horaEntrada) / (1000 * 60 * 60);
         }
     }
 
-    if (horasTrabajadas < 8) {
-        await insertarAlerta(usuarioId, fecha, parseFloat(horasTrabajadas.toFixed(2)));
+    const horasRedondeadas = parseFloat(horasTrabajadas.toFixed(2));
+    const pausasRedondeadas = parseFloat(horasPausa.toFixed(2));
+
+    await insertarHistorialJornada(
+        usuarioId,
+        fecha,
+        primeraEntrada,
+        fechaHora,
+        horasRedondeadas,
+        pausasRedondeadas
+    );
+
+    if (horasRedondeadas < JORNADA_HORAS) {
+        await insertarAlerta(usuarioId, fecha, horasRedondeadas);
     }
 }
 

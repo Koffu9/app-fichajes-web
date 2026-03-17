@@ -37,6 +37,7 @@
 
 
 import pool from '../db.js';
+import { JORNADA_HORAS } from '../config.js';
 
 //Función que devuelve el ultimo fichaje del usuario pasado como parametro.
 export async function obtenerUltimoFichaje(usuarioId) {
@@ -139,4 +140,20 @@ export async function obtenerMotivosPausa() {
         'SELECT * FROM motivos_pausa WHERE activo = 1'
     );
     return rows;
+}
+
+// Inserta o actualiza el resumen de jornada al registrar una salida
+export async function insertarHistorialJornada(usuarioId, fecha, horaEntrada, horaSalida, horasTrabajadas, horasPausa) {
+    const completa = horasTrabajadas >= JORNADA_HORAS ? 1 : 0;
+    await pool.query(
+        `INSERT INTO historial_jornadas 
+            (usuario_id, fecha, hora_entrada, hora_salida, horas_trabajadas, horas_pausa, jornada_completa)
+         VALUES (?, ?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+            hora_salida         = VALUES(hora_salida),
+            horas_trabajadas    = VALUES(horas_trabajadas),
+            horas_pausa         = VALUES(horas_pausa),
+            jornada_completa    = VALUES(jornada_completa)`,
+        [usuarioId, fecha, horaEntrada, horaSalida, horasTrabajadas, horasPausa, completa]
+    );
 }

@@ -69,6 +69,24 @@ CREATE TABLE alertas_jornada (
     UNIQUE KEY uq_alerta_usuario_fecha (usuario_id, fecha)
 );
 
+-- TABLA: historial_jornadas
+
+CREATE TABLE historial_jornadas (
+    id                  INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id          INT             NOT NULL,
+    fecha               DATE            NOT NULL,
+    hora_entrada        DATETIME        NOT NULL,
+    hora_salida         DATETIME        NOT NULL,
+    horas_trabajadas    DECIMAL(5,2)    NOT NULL,
+    horas_pausa         DECIMAL(5,2)    NOT NULL DEFAULT 0,
+    jornada_completa    TINYINT(1)      NOT NULL DEFAULT 0,
+    created_at          DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    UNIQUE KEY uq_historial_usuario_fecha (usuario_id, fecha)
+);
+-- Indice para realizar las consultas usuario/fecha más rápido en historial_jornadas
+CREATE INDEX idx_historial_usuario_fecha ON historial_jornadas (usuario_id, fecha);
+
 
 -- TABLA: motivos_ausencia
 

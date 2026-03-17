@@ -3,10 +3,17 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(() => {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true); // Nuevo estado de carga
+
+    useEffect(() => {
+        // Leemos el usuario al arrancar la app
         const savedUser = localStorage.getItem('user');
-        return savedUser ? JSON.parse(savedUser) : null;
-    });
+        if (savedUser) {
+            setUser(JSON.parse(savedUser));
+        }
+        setLoading(false); // Ya hemos terminado de leer, dejamos de cargar
+    }, []);
 
     const login = (userData) => {
         setUser(userData);
@@ -19,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

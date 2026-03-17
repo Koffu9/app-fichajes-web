@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import styles from './Dashboard.module.css'; // Importamos los estilos
 
 export function Dashboard() {
     const [resumen, setResumen] = useState({ activos: 0, alertas: 0 });
@@ -7,26 +8,32 @@ export function Dashboard() {
     useEffect(() => {
         fetch('http://localhost:3000/api/admin/resumen', { credentials: 'include' })
             .then(res => res.json())
-            .then(data => setResumen(data));
+            .then(data => setResumen(data))
+            .catch(err => console.error("Error cargando resumen:", err));
     }, []);
 
     return (
-        <div style={{ padding: '30px' }}>
-            <h1>Dashboard Administrador</h1>
-            <div style={{ display: 'flex', gap: '20px' }}>
-                <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+        <div className={styles.container}>
+            <h1 className={styles.title}>Dashboard Administrador</h1>
+            
+            <div className={styles.statsGrid}>
+                <div className={styles.card}>
                     <h3>Trabajadores Activos</h3>
                     <p>{resumen.activos}</p>
                 </div>
-                <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+
+                <div className={`${styles.card} ${styles.cardAlert}`}>
                     <h3>Alertas</h3>
-                    <p>{resumen.alertas} jornadas sin cerrar</p>
+                    <p>{resumen.alertas} <span style={{fontSize: '1rem', fontWeight: 'normal'}}>jornadas abiertas</span></p>
                 </div>
             </div>
-            <nav style={{ marginTop: '20px' }}>
-                <Link to="/admin/fichajes">Ir a Fichajes</Link> | 
-                <Link to="/admin/informes">Ir a Informes</Link> | 
-                <Link to="/admin/ausencias">Ir a Ausencias</Link>
+
+            <nav className={styles.navBar}>
+                <Link to="/admin/fichajes" className={styles.link}>Fichajes</Link>
+                <span className={styles.separator}>|</span>
+                <Link to="/admin/informes" className={styles.link}>Informes</Link>
+                <span className={styles.separator}>|</span>
+                <Link to="/admin/ausencias" className={styles.link}>Ausencias</Link>
             </nav>
         </div>
     );

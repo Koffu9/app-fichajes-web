@@ -2,19 +2,19 @@ import { useState, useEffect } from 'react';
 
 export function Fichajes() {
     const [logs, setLogs] = useState([]);
-    const [filtro, setFiltro] = useState({ fechaInicio: '', fechaFin: '', userId: '' });
+    const [filtro, setFiltro] = useState({ inicio: '', fin: '', trabajador: '' });
     
     // Estado para el formulario (Sirve para Alta y Modificación)
-    const [form, setForm] = useState({ id: null, usuarioId: '', tipo: 'entrada', fecha: '', hora: '' });
+    const [form, setForm] = useState({ id: null, trabajadorId: '', tipo: 'entrada', fecha: '', hora: '' });
     const [editando, setEditando] = useState(false);
 
-    // 1. Ver todos los fichajes con filtros
+    // 1. Ver todos los fichajes con filtros (Corregida)
     const buscar = async () => {
         try {
             const params = new URLSearchParams();
-            if (filtro.userId) params.append('userId', filtro.userId);
-            if (filtro.fechaInicio) params.append('fechaInicio', filtro.fechaInicio);
-            if (filtro.fechaFin) params.append('fechaFin', filtro.fechaFin);
+            if (filtro.userid) params.append('trabajador', filtro.userid);
+            if (filtro.inicio) params.append('inicio', filtro.inicio);
+            if (filtro.fin) params.append('fin', filtro.fin);
 
             const res = await fetch(`http://localhost:3000/api/fichajes/todos?${params.toString()}`, { 
                 credentials: 'include' 
@@ -22,7 +22,7 @@ export function Fichajes() {
 
             if (!res.ok) throw new Error('Error en el servidor');
             const data = await res.json();
-            setLogs(Array.isArray(data.fichajes) ? data.fichajes : []);
+            setLogs(Array.isArray(data.Fichajes) ? data : []);
         } catch (error) {
             console.error("Error al buscar:", error);
             setLogs([]);
@@ -35,9 +35,6 @@ export function Fichajes() {
     // 2. Formulario: Alta y Modificación
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Combinar fecha y hora en un solo campo fechaHora
-        const fechaHora = `${form.fecha}T${form.hora}:00`;
         
         const url = editando 
             ? `http://localhost:3000/api/fichajes/modificar/${form.id}` 
@@ -49,7 +46,7 @@ export function Fichajes() {
             method: method,
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ usuarioId: form.usuarioId, tipo: form.tipo, fechaHora })
+            body: JSON.stringify(form)
         });
 
         cancelarEdicion();
@@ -58,19 +55,18 @@ export function Fichajes() {
 
     const prepararEdicion = (log) => {
         setEditando(true);
-        const dt = new Date(log.fecha_hora);
         setForm({
             id: log.id,
-            usuarioId: log.usuario_id,
+            trabajadorId: log.trabajadorId || '',
             tipo: log.tipo,
-            fecha: dt.toISOString().split('T')[0],
-            hora: dt.toTimeString().slice(0, 5)
+            fecha: log.fecha ? log.fecha.split('T')[0] : '',
+            hora: log.hora || ''
         });
     };
 
     const cancelarEdicion = () => {
         setEditando(false);
-        setForm({ id: null, usuarioId: '', tipo: 'entrada', fecha: '', hora: '' });
+        setForm({ id: null, trabajadorId: '', tipo: 'entrada', fecha: '', hora: '' });
     };
 
     return (
@@ -79,9 +75,9 @@ export function Fichajes() {
 
             {/* Filtros */}
             <div style={{ marginBottom: '20px', display: 'flex', gap: '10px', background: '#f8f9fa', padding: '15px' }}>
-                <input type="text" placeholder="ID Trabajador" value={filtro.userId} onChange={e => setFiltro({...filtro, userId: e.target.value})} />
-                <input type="date" value={filtro.fechaInicio} onChange={e => setFiltro({...filtro, fechaInicio: e.target.value})} />
-                <input type="date" value={filtro.fechaFin} onChange={e => setFiltro({...filtro, fechaFin: e.target.value})} />
+                <input type="text" placeholder="ID Trabajador" value={filtro.trabajador} onChange={e => setFiltro({...filtro, trabajador: e.target.value})} />
+                <input type="date" value={filtro.inicio} onChange={e => setFiltro({...filtro, inicio: e.target.value})} />
+                <input type="date" value={filtro.fin} onChange={e => setFiltro({...filtro, fin: e.target.value})} />
                 <button onClick={buscar}>Filtrar / Actualizar</button>
             </div>
 
@@ -90,8 +86,8 @@ export function Fichajes() {
             {/* Formulario Alta/Modificar */}
             <div style={{ margin: '20px 0', padding: '15px', border: '1px solid #ddd' }}>
                 <h3>{editando ? 'Editar Registro' : 'Nuevo Fichaje Manual'}</h3>
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                    <input type="text" placeholder="ID Trabajador" required value={form.usuarioId} onChange={e => setForm({...form, usuarioId: e.target.value})} />
+                <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    <input type="text" placeholder="ID Trabajador" required value={form.trabajadorId} onChange={e => setForm({...form, trabajadorId: e.target.value})} />
                     <select value={form.tipo} onChange={e => setForm({...form, tipo: e.target.value})}>
                         <option value="entrada">Entrada</option>
                         <option value="salida">Salida</option>
@@ -101,11 +97,11 @@ export function Fichajes() {
                     <input type="date" required value={form.fecha} onChange={e => setForm({...form, fecha: e.target.value})} />
                     <input type="time" required value={form.hora} onChange={e => setForm({...form, hora: e.target.value})} />
                     
-                    <button onClick={handleSubmit} style={{ backgroundColor: editando ? '#ffa500' : '#007bff', color: 'white' }}>
+                    <button type="submit" style={{ backgroundColor: editando ? '#ffa500' : '#007bff', color: 'white' }}>
                         {editando ? 'Guardar Cambios' : 'Dar de Alta'}
                     </button>
-                    {editando && <button onClick={cancelarEdicion}>Cancelar</button>}
-                </div>
+                    {editando && <button type="button" onClick={cancelarEdicion}>Cancelar</button>}
+                </form>
             </div>
 
             {/* Tabla */}
@@ -115,7 +111,8 @@ export function Fichajes() {
                         <th>ID</th>
                         <th>Trabajador</th>
                         <th>Tipo</th>
-                        <th>Fecha y Hora</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -123,9 +120,10 @@ export function Fichajes() {
                     {logs.map(log => (
                         <tr key={log.id} style={{ borderBottom: '1px solid #eee' }}>
                             <td>{log.id}</td>
-                            <td>{log.usuario_id}</td>
+                            <td>{log.trabajadorId}</td>
                             <td>{log.tipo.toUpperCase()}</td>
-                            <td>{new Date(log.fecha_hora).toLocaleString()}</td>
+                            <td>{log.fecha ? new Date(log.fecha).toLocaleDateString() : '-'}</td>
+                            <td>{log.hora}</td>
                             <td>
                                 <button onClick={() => prepararEdicion(log)}>Editar</button>
                             </td>

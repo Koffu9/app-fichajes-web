@@ -1,18 +1,21 @@
 .quickLinks {
-    display:flex;
+    display: flex;
     max-width: 1340px;
     margin: 85px auto;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.432);
+    /* Sombra suavizada */
+    box-shadow: 0 0 15px rgba(26, 58, 74, 0.2); 
+    background-color: white; /* Fondo blanco */
 }
 
 .statsSection {
-    display:flex;
+    display: flex;
     flex-direction: column;
     gap: 50px;
     position: relative;
     padding: 80px 20px;
     text-align: center;
     margin-bottom: 30px;
+    background-color: #f9f9f9; /* Fondo claro */
 }
 
 .statsSection::before {
@@ -30,7 +33,7 @@
 .statsSection > h2 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 700;
-    color: #264653;
+    color: #264653; /* Azul petróleo */
     font-size: 30px;
     margin-bottom: 40px;
     margin-top: 60px;
@@ -41,7 +44,6 @@
     justify-content: center;
     gap: 60px;
 }
-
 
 .cursosSection {
     max-width: 1100px;
@@ -56,7 +58,7 @@
 .cursosSection h2 {
     font-size: 2.5rem;
     font-weight: 500;
-    color: #264653;
+    color: #264653; /* Consistencia en títulos */
     text-align: center;
 }
 
@@ -75,11 +77,20 @@
     cursor: pointer;
     font-weight: 700;
     color: #264653;
+    /* Degradado naranja */
     background-image: linear-gradient(103deg, #ffb356 0%, #ffd088 20%, #f1f5fa 72%, #ffb65e 100%);
-    border: #264653;;
+    /* Borde a juego con el texto */
+    border: 1px solid #264653;
     border-radius: 7px;
     padding: 7px 30px;
     line-height: 1.7em;
     font-size: 18px;
     letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.cursosBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    background-image: linear-gradient(103deg, #ffb65e 0%, #f1f5fa 100%);
 }

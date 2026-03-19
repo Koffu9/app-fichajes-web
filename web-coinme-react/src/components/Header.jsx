@@ -1,6 +1,6 @@
 import '../index.css'
-import { Link } from 'react-router-dom' 
-import { useAuth } from '../context/AuthContext.jsx' // Añadido: Importamos el hook
+import { Link, useNavigate } from 'react-router-dom' 
+import { useAuth } from '../context/AuthContext.jsx' 
 import { FacebookIcon } from './icons/FacebookIcon'
 import { LinkedInIcon } from './icons/Linkedinicon'
 import { Youtubeicon } from './icons/Youtubeicon'
@@ -8,8 +8,14 @@ import { NavItem } from './NavItem'
 import logo_escudo from '../assets/logo_escudo.png'
 
 export function Header() {
-    // Añadido: Extraemos el usuario y la función de cerrar sesión
     const { user, logout } = useAuth();
+    const navigate = useNavigate(); // Inicializamos el hook de navegación
+
+    // Función para cerrar sesión y saltar a la home
+    const handleLogout = async () => {
+        await logout(); // Ejecuta la limpieza en el Context y la llamada al backend
+        navigate('/');  // Redirige a la homepage
+    };
 
     return (
         <header>
@@ -30,7 +36,7 @@ export function Header() {
                     <Link to="/">
                         <img className='nav-logo' src={logo_escudo} alt="Logo COIMNE" /> 
                     </Link>                    
-                    <nav className='nav-menu'>                       
+                    <nav className='nav-menu'>                      
                         <ul className='nav-list'>
                             <li><Link to="/">INICIO</Link></li>
                             <NavItem label="UNETE"
@@ -56,7 +62,7 @@ export function Header() {
                                       ]},
                                 ]}>
                                 
-                                </NavItem>                            
+                                </NavItem>                             
                                 <NavItem label="SERVICIOS"
                                 submenu={[
                                     { label: "Toda la información", href: "#" },
@@ -89,9 +95,9 @@ export function Header() {
                         </ul>
                     </nav>
 
-                    {}
+                    {/* Cambiado: botón de cierre de sesión con redirección */}
                     {user ? (
-                        <button onClick={logout} className='nav-button' style={{ backgroundColor: '#d32f2f' }}>
+                        <button onClick={handleLogout} className='nav-button' style={{ backgroundColor: '#d32f2f' }}>
                             CERRAR SESIÓN
                         </button>
                     ) : (

@@ -1,12 +1,13 @@
 .container {
     padding: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+    /* Fuente del index.css */
+    font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
+    background-color: #f9f9f9; /* Fondo claro del index */
     min-height: 100vh;
 }
 
 .title {
-    color: #2c3e50;
+    color: #1a3a4a; /* Azul principal */
     margin-bottom: 2rem;
     font-size: 2rem;
 }
@@ -25,11 +26,11 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     min-width: 200px;
     flex: 1;
-    border-left: 5px solid #764ba2; /* Color principal */
+    border-left: 5px solid #1a3a4a; 
 }
 
 .cardAlert {
-    border-left: 5px solid #e74c3c; /* Color rojo para alertas */
+    border-left: 5px solid #f5a623; 
 }
 
 .card h3 {
@@ -43,7 +44,7 @@
     margin: 10px 0 0;
     font-size: 2rem;
     font-weight: bold;
-    color: #2c3e50;
+    color: #264653; /* Segundo azul */
 }
 
 .navBar {
@@ -57,7 +58,7 @@
 
 .link {
     text-decoration: none;
-    color: #764ba2;
+    color: #1a3a4a; /* Azul principal */
     font-weight: 600;
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -65,7 +66,8 @@
 }
 
 .link:hover {
-    background-color: #f0ebf7;
+    background-color: rgba(245, 166, 35, 0.1); 
+    color: #f5a623; /* Texto naranja en el hover */
 }
 
 .separator {

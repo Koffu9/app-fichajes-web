@@ -9,6 +9,7 @@ import { Dashboard } from './pages/admin/Dashboard.jsx'
 import { Fichajes } from './pages/admin/Fichajes.jsx'
 import { Ausencias } from './pages/admin/Ausencias.jsx'
 import { Informes } from './pages/admin/Informes.jsx'
+import { ProtectedRoute } from './components/ProtectedRoute.jsx' 
 
 
 function App() {
@@ -25,12 +26,52 @@ function App() {
               {/* Ruta de acceso: El formulario de login */}
               <Route path="/login" element={<Login />} />
               
-              {/* Rutas del sistema (se activan tras el login) */}
-              <Route path="/trabajador/fichar" element={<Fichar />} />
-              <Route path="/admin/ausencias" element={<Ausencias />} />
-              <Route path="/admin/dashboard" element={<Dashboard />} />
-              <Route path="/admin/fichajes" element={<Fichajes />} />
-              <Route path="/admin/informes" element={<Informes />} />
+              {/* Rutas del sistema (Protegidas por roles) */}
+              
+              {/* Solo Trabajadores */}
+              <Route 
+                path="/trabajador/fichar" 
+                element={
+                  <ProtectedRoute allowedRoles={['trabajador']}>
+                    <Fichar />
+                  </ProtectedRoute>
+                } 
+              />
+
+              {/* Solo Administradores */}
+              <Route 
+                path="/admin/dashboard" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/ausencias" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <Ausencias />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/fichajes" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <Fichajes />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/informes" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <Informes />
+                  </ProtectedRoute>
+                } 
+              />
+
             </Routes>
           </main>
           <Footer/>

@@ -7,22 +7,25 @@ export function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login, user, loading } = useAuth();
+    // Añadimos checkAuth del contexto
+    const { login, user, loading, checkAuth } = useAuth(); 
     const navigate = useNavigate();
 
     // Si el usuario ya está logueado, lo mandamos a su sitio
     useEffect(() => {
         if (!loading && user) {
             if (user.rol === 'admin') {
-                navigate('/admin/dashboard');
-            } else {
-                navigate('/trabajador/fichar');
+                navigate('/admin/dashboard', { replace: true });
+            } else if (user.rol === 'trabajador') {
+                navigate('/trabajador/fichar', { replace: true });
             }
         }
     }, [user, loading, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(''); // Limpiamos errores previos al intentar de nuevo
+        
         try {
             const res = await fetch('http://localhost:3000/api/auth/login', {
                 method: 'POST',
@@ -34,7 +37,8 @@ export function Login() {
             const data = await res.json();
 
             if (res.ok) {
-                login(data.user);
+                login(data.user); 
+                if (checkAuth) await checkAuth(); 
             } else {
                 setError(data.message || 'Error en el login');
             }
@@ -43,7 +47,12 @@ export function Login() {
         }
     };
 
-    if (loading) return <div>Cargando...</div>;
+    // Estilo para el estado de carga (puedes usar el mismo que en el ProtectedRoute)
+    if (loading) return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#1a3a4a' }}>
+            Cargando...
+        </div>
+    );
 
     return (
         <div className={styles.loginContainer}>
@@ -56,6 +65,7 @@ export function Login() {
                     type="email" 
                     placeholder="Email" 
                     className={styles.input}
+                    value={email} // Buena práctica: input controlado
                     onChange={e => setEmail(e.target.value)} 
                     required 
                 />
@@ -63,6 +73,7 @@ export function Login() {
                     type="password" 
                     placeholder="Contraseña" 
                     className={styles.input}
+                    value={password} // Buena práctica: input controlado
                     onChange={e => setPassword(e.target.value)} 
                     required 
                 />

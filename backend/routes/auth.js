@@ -30,26 +30,40 @@ router.post('/login', async (req, res) => {
     return res.status(400).json({ ok: false, message: 'Email y contraseña son obligatorios' });
   }
 
-  const resultado = await loginService(email, password);
+  try {
+        const resultado = await loginService(email, password);
 
-  if (!resultado.ok) {
-    return res.status(401).json(resultado);
-  }
+        if (!resultado.ok) {
+            return res.status(401).json(resultado);
+        }
 
-  req.session.usuario = resultado.user;
-
-  return res.status(200).json(resultado);
+        req.session.usuario = resultado.user;
+        return res.status(200).json(resultado);
+    } catch (error) {
+        console.error('Error en POST /auth/login:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 // POST /api/auth/logout
 router.post('/logout', (req, res) => {
-  req.session.destroy();
-  return res.status(200).json({ ok: true });
+  try {
+        req.session.destroy();
+        return res.status(200).json({ ok: true });
+    } catch (error) {
+        console.error('Error en POST /auth/logout:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 // GET /api/auth/me
 router.get('/me', authMiddleware, (req, res) => {
-  return res.status(200).json({ ok: true, user: req.session.usuario });
+  try {
+    return res.status(200).json({ ok: true, user: req.session.usuario });
+  } catch (error) {
+    console.error('Error en GET /auth/me:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 export default router;

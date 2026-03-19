@@ -17,6 +17,8 @@ import cors from 'cors';
 import session from 'express-session';
 import authRoutes from './routes/auth.js';
 import fichajesRoutes from './routes/fichajes.js';
+import informesRouter from './routes/informes.js';
+import usuariosRouter from './routes/usuarios.js';
 
 const app = express();
 const PORT = 3000;
@@ -42,6 +44,8 @@ app.use(session({
 //Rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/fichajes', fichajesRoutes);
+app.use('/api/informes', informesRouter);
+app.use('/api/usuarios', usuariosRouter);
 
 // Arrancar servidor
 app.listen(PORT, () => {

@@ -30,63 +30,103 @@ import { obtenerEstado, registrarFichaje, registrarPausa, obtenerFichajesUsuario
 
 const router = express.Router();
 
-// POST /api/auth/fichar
+// POST /api/fichajes/fichar
 router.post('/fichar', authMiddleware, async (req, res) => {
-    const userId = req.session.usuario.id;
-    const resultado = await registrarFichaje(userId);
-    return res.status(200).json({ ok: true, ...resultado });
+    try {
+        const userId = req.session.usuario.id;
+        const resultado = await registrarFichaje(userId);
+        return res.status(200).json({ ok: true, ...resultado });
+    } catch (error) {
+        console.error('Error en POST /fichajes/fichar:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
-// POST /api/auth/descanso
+// POST /api/fichajes/descanso
 router.post('/descanso', authMiddleware, async (req, res) => {
-    const userId = req.session.usuario.id;
-    const motivoId = req.body?.motivoId || null;
-    const resultado = await registrarPausa(userId, motivoId);
-    return res.status(200).json({ ok: true, ...resultado });
+    try {
+        const userId = req.session.usuario.id;
+        const motivoId = req.body?.motivoId || null;
+        const resultado = await registrarPausa(userId, motivoId);
+        return res.status(200).json({ ok: true, ...resultado });
+    } catch (error) {
+        console.error('Error en POST /fichajes/descanso:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 // GET /api/fichajes/misFichajes
 router.get('/misFichajes', authMiddleware, async (req, res) => {
-    const userId = req.session.usuario.id;
-    const { fechaInicio, fechaFin } = req.query;
-    const fichajes = await obtenerFichajesUsuario(userId, fechaInicio, fechaFin);
-    return res.status(200).json({ ok: true, fichajes });
+    try {
+        const userId = req.session.usuario.id;
+        const { fechaInicio, fechaFin } = req.query;
+        const fichajes = await obtenerFichajesUsuario(userId, fechaInicio, fechaFin);
+        return res.status(200).json({ ok: true, fichajes });
+    } catch (error) {
+        console.error('Error en GET /fichajes/misFichajes:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 // GET /api/fichajes/estado
 router.get('/estado', authMiddleware, async (req, res) => {
-    const userId = req.session.usuario.id;
-    const estado = await obtenerEstado(userId);
-    return res.status(200).json({ ok: true, ...estado });
+    try {
+        const userId = req.session.usuario.id;
+        const estado = await obtenerEstado(userId);
+        return res.status(200).json({ ok: true, ...estado });
+    } catch (error) {
+        console.error('Error en GET /fichajes/estado:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 // GET /api/fichajes/todos (admin)
 router.get('/todos', soloAdmin, async (req, res) => {
-    const { fechaInicio, fechaFin, userId } = req.query;
-    const fichajes = await obtenerTodosFichajes(fechaInicio, fechaFin, userId);
-    return res.status(200).json({ ok: true, fichajes });
+    try {
+        const { fechaInicio, fechaFin, userId } = req.query;
+        const fichajes = await obtenerTodosFichajes(fechaInicio, fechaFin, userId);
+        return res.status(200).json({ ok: true, fichajes });
+    } catch (error) {
+        console.error('Error en GET /fichajes/todos:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 // POST /api/fichajes/alta (admin)
 router.post('/alta', soloAdmin, async (req, res) => {
-    const { usuarioId, tipo, fechaHora, motivoId, observaciones } = req.body;
-    const modificadoPor = req.session.usuario.id
-    const idFichaje = await altaFichajeAdmin(usuarioId, tipo, fechaHora, motivoId, observaciones, modificadoPor);
-    return res.status(201).json({ ok: true, idFichaje });
+    try {
+        const { usuarioId, tipo, fechaHora, motivoId, observaciones } = req.body;
+        const modificadoPor = req.session.usuario.id;
+        const idFichaje = await altaFichajeAdmin(usuarioId, tipo, fechaHora, motivoId, observaciones, modificadoPor);
+        return res.status(201).json({ ok: true, idFichaje });
+    } catch (error) {
+        console.error('Error en POST /fichajes/alta:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 // PUT /api/fichajes/modificar/:id (admin)
 router.put('/modificar/:id', soloAdmin, async (req, res) => {
-    const { tipo, fechaHora, motivoId, observaciones } = req.body;
-    const modificadoPor = req.session.usuario.id;
-    const resultado = await editarFichaje(req.params.id, tipo, fechaHora, motivoId, observaciones, modificadoPor);
-    return res.status(200).json(resultado);
+    try {
+        const { tipo, fechaHora, motivoId, observaciones } = req.body;
+        const modificadoPor = req.session.usuario.id;
+        const resultado = await editarFichaje(req.params.id, tipo, fechaHora, motivoId, observaciones, modificadoPor);
+        return res.status(200).json(resultado);
+    } catch (error) {
+        console.error('Error en PUT /fichajes/modificar:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 // GET /api/fichajes/motivos-pausa
 router.get('/motivos-pausa', authMiddleware, async (req, res) => {
-    const motivos = await obtenerMotivosPausaService();
-    return res.status(200).json({ ok: true, motivos });
+    try {
+        const motivos = await obtenerMotivosPausaService();
+        return res.status(200).json({ ok: true, motivos });
+    } catch (error) {
+        console.error('Error en GET /fichajes/motivos-pausa:', error);
+        return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
+    }
 });
 
 export default router;

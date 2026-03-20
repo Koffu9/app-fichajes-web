@@ -1,19 +1,90 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function Informes() {
     const [datos, setDatos] = useState([]);
+    // --- NUEVOS ESTADOS ---
+    const [trabajadores, setTrabajadores] = useState([]);
+    const [idTrabajador, setIdTrabajador] = useState('');
+    const [fechaDesde, setFechaDesde] = useState('');
+    const [fechaHasta, setFechaHasta] = useState('');
 
-    const generar = async (tipo) => {
-        const res = await fetch(`http://localhost:3000/api/informes/${tipo}`, { credentials: 'include' });
-        const data = await res.json();
-        setDatos(data);
+    // --- CARGAR LISTA DE TRABAJADORES AL INICIAR ---
+    useEffect(() => {
+        fetch('http://localhost:3000/api/usuarios/trabajadores', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setTrabajadores(data))
+            .catch(err => console.error("Error cargando trabajadores", err));
+    }, []);
+
+    const generar = async () => {
+        let url = '';
+
+        if (idTrabajador) {
+            // 1. SI HAY TRABAJADOR: Informe específico por rango de fechas
+            url = `http://localhost:3000/api/informes/trabajador/${idTrabajador}?desde=${fechaDesde}&hasta=${fechaHasta}`;
+        } else {
+            // 2. SI NO HAY TRABAJADOR: Informe mensual general (sacamos mes/año de fechaDesde)
+            const fecha = new Date(fechaDesde);
+            const mes = fecha.getMonth() + 1;
+            const anio = fecha.getFullYear();
+            url = `http://localhost:3000/api/informes/mensual?anio=${anio}&mes=${mes}`;
+        }
+
+        try {
+            const res = await fetch(url, { credentials: 'include' });
+            const data = await res.json();
+            setDatos(data);
+        } catch (error) {
+            console.error("Error al generar el informe", error);
+        }
     };
 
     return (
-        <div>
+        <div style={{ padding: '20px' }}>
             <h2>Informes</h2>
-            <button onClick={() => generar('mensual')}>Informe Mensual</button>
-            {/* Tabla de resultados */}
+
+            <div style={{ display: 'flex', gap: '15px', marginBottom: '20px', alignItems: 'center' }}>
+                {/* Desplegable de trabajadores */}
+                <select 
+                    value={idTrabajador} 
+                    onChange={(e) => setIdTrabajador(e.target.value)}
+                    style={{ padding: '8px', borderRadius: '5px' }}
+                >
+                    <option value="">-- Todos los trabajadores (Mensual) --</option>
+                    {trabajadores.map(t => (
+                        <option key={t.id} value={t.id}>
+                            {t.nombre} {t.apellidos}
+                        </option>
+                    ))}
+                </select>
+
+                {/* Filtros de fecha */}
+                <label>Desde: 
+                    <input type="date" value={fechaDesde} onChange={(e) => setFechaDesde(e.target.value)} />
+                </label>
+                
+                {idTrabajador && (
+                    <label>Hasta: 
+                        <input type="date" value={fechaHasta} onChange={(e) => setFechaHasta(e.target.value)} />
+                    </label>
+                )}
+
+                <button 
+                    onClick={generar}
+                    style={{ backgroundColor: '#264653', color: 'white', padding: '8px 15px', borderRadius: '5px', cursor: 'pointer' }}
+                >
+                    Generar Informe
+                </button>
+            </div>
+
+            {/* Tabla de resultados (puedes mapear 'datos' aquí) */}
+            <div className="resultados">
+                {datos.length > 0 ? (
+                    <pre>{JSON.stringify(datos, null, 2)}</pre> 
+                ) : (
+                    <p>No hay datos para mostrar. Selecciona los filtros y pulsa Generar.</p>
+                )}
+            </div>
         </div>
     );
 }

@@ -19,6 +19,7 @@
 import express from 'express';
 import { loginService } from '../services/authService.js';
 import { authMiddleware } from '../middleware/auth.js';
+import { logError } from '../logger.js';
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ router.post('/login', async (req, res) => {
         req.session.usuario = resultado.user;
         return res.status(200).json(resultado);
     } catch (error) {
-        console.error('Error en POST /auth/login:', error);
+        logError('POST /auth/login', error);
         return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
     }
 });

@@ -42,6 +42,7 @@ export async function registrarFichaje(usuarioId) {
   const { proximoTipoFichar } = await obtenerEstado(usuarioId);
   const ahora = new Date();
 
+  //No estamos recuperando el user.id deberiamos usar un try and catch
   await insertarFichaje(usuarioId, proximoTipoFichar, ahora);
 
   if (proximoTipoFichar === 'salida') {

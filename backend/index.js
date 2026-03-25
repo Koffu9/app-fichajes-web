@@ -19,6 +19,7 @@ import authRoutes from './routes/auth.js';
 import fichajesRoutes from './routes/fichajes.js';
 import informesRouter from './routes/informes.js';
 import usuariosRouter from './routes/usuarios.js';
+import ausenciasRouter from './routes/ausencias.js';
 
 const app = express();
 const PORT = 3000;
@@ -46,6 +47,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/fichajes', fichajesRoutes);
 app.use('/api/informes', informesRouter);
 app.use('/api/usuarios', usuariosRouter);
+app.use('/api/ausencias', ausenciasRouter);
 
 // Arrancar servidor
 app.listen(PORT, () => {

@@ -9,3 +9,18 @@ export async function obtenerTrabajadores() {
     );
     return rows;
 }
+
+//Para el dashboard
+
+// Obtiene el número de trabajadores activos y alertas pendientes para el dashboard
+export async function obtenerResumenDashboard() {
+    const [[{ activos }]] = await pool.query(
+        `SELECT COUNT(*) AS activos FROM usuarios 
+         WHERE rol = 'trabajador' AND activo = 1`
+    );
+    const [[{ alertas }]] = await pool.query(
+        `SELECT COUNT(*) AS alertas FROM alertas_jornada 
+         WHERE resuelta = 0`
+    );
+    return { activos, alertas };
+}

@@ -16,4 +16,18 @@ router.get('/trabajadores', soloAdmin, async (req, res) => {
     }
 });
 
+
+//Para dashboard
+
+// GET /api/usuarios/resumen
+router.get('/resumen', soloAdmin, async (req, res) => {
+    try {
+        const resumen = await getResumenDashboard();
+        res.json({ ok: true, ...resumen });
+    } catch (error) {
+        logError('GET /usuarios/resumen', error);
+        res.status(500).json({ ok: false, message: 'Error al obtener el resumen' });
+    }
+});
+
 export default router;

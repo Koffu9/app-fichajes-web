@@ -27,6 +27,7 @@
 import express from 'express';
 import { authMiddleware, soloAdmin } from '../middleware/auth.js';
 import { obtenerEstado, registrarFichaje, registrarPausa, obtenerFichajesUsuario, obtenerTodosFichajes, altaFichajeAdmin, editarFichaje, obtenerMotivosPausaService } from '../services/fichajesService.js';
+import { logError } from '../logger.js';
 
 const router = express.Router();
 
@@ -37,7 +38,7 @@ router.post('/fichar', authMiddleware, async (req, res) => {
         const resultado = await registrarFichaje(userId);
         return res.status(200).json({ ok: true, ...resultado });
     } catch (error) {
-        console.error('Error en POST /fichajes/fichar:', error);
+        logError('Error en POST /fichajes/fichar:', error);
         return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
     }
 });
@@ -50,7 +51,7 @@ router.post('/descanso', authMiddleware, async (req, res) => {
         const resultado = await registrarPausa(userId, motivoId);
         return res.status(200).json({ ok: true, ...resultado });
     } catch (error) {
-        console.error('Error en POST /fichajes/descanso:', error);
+        logError('Error en POST /fichajes/descanso:', error);
         return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
     }
 });
@@ -63,7 +64,7 @@ router.get('/misFichajes', authMiddleware, async (req, res) => {
         const fichajes = await obtenerFichajesUsuario(userId, fechaInicio, fechaFin);
         return res.status(200).json({ ok: true, fichajes });
     } catch (error) {
-        console.error('Error en GET /fichajes/misFichajes:', error);
+        logError('Error en GET /fichajes/misFichajes:', error);
         return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
     }
 });
@@ -75,7 +76,7 @@ router.get('/estado', authMiddleware, async (req, res) => {
         const estado = await obtenerEstado(userId);
         return res.status(200).json({ ok: true, ...estado });
     } catch (error) {
-        console.error('Error en GET /fichajes/estado:', error);
+        logError('Error en GET /fichajes/estado:', error);
         return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
     }
 });
@@ -87,7 +88,7 @@ router.get('/todos', soloAdmin, async (req, res) => {
         const fichajes = await obtenerTodosFichajes(fechaInicio, fechaFin, userId);
         return res.status(200).json({ ok: true, fichajes });
     } catch (error) {
-        console.error('Error en GET /fichajes/todos:', error);
+        logError('Error en GET /fichajes/todos:', error);
         return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
     }
 });
@@ -100,7 +101,7 @@ router.post('/alta', soloAdmin, async (req, res) => {
         const idFichaje = await altaFichajeAdmin(usuarioId, tipo, fechaHora, motivoId, observaciones, modificadoPor);
         return res.status(201).json({ ok: true, idFichaje });
     } catch (error) {
-        console.error('Error en POST /fichajes/alta:', error);
+        logError('Error en POST /fichajes/alta:', error);
         return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
     }
 });
@@ -113,7 +114,7 @@ router.put('/modificar/:id', soloAdmin, async (req, res) => {
         const resultado = await editarFichaje(req.params.id, tipo, fechaHora, motivoId, observaciones, modificadoPor);
         return res.status(200).json(resultado);
     } catch (error) {
-        console.error('Error en PUT /fichajes/modificar:', error);
+        logError('Error en PUT /fichajes/modificar:', error);
         return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
     }
 });
@@ -124,7 +125,7 @@ router.get('/motivos-pausa', authMiddleware, async (req, res) => {
         const motivos = await obtenerMotivosPausaService();
         return res.status(200).json({ ok: true, motivos });
     } catch (error) {
-        console.error('Error en GET /fichajes/motivos-pausa:', error);
+        logError('Error en GET /fichajes/motivos-pausa:', error);
         return res.status(500).json({ ok: false, message: 'Error interno del servidor' });
     }
 });

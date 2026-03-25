@@ -7,8 +7,10 @@
 
 import bcrypt from 'bcrypt';
 import { buscarUsuarioPorEmail } from '../storage/authStorage.js';
+import { logError } from '../logger.js';
 
 export async function loginService(email, password) {
+  try {
   const usuario = await buscarUsuarioPorEmail(email);
 
   if (!usuario) {
@@ -31,4 +33,8 @@ export async function loginService(email, password) {
       rol: usuario.rol
     }
   };
+  } catch (error) {
+        logError('calcularYAlertarJornada', error);
+        throw error;
+    }
 }

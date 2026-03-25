@@ -8,7 +8,7 @@ export function TrabajadorSelector({ onSelect, value }) {
     useEffect(() => {
         fetch('http://localhost:3000/api/usuarios/trabajadores', { credentials: 'include' })
             .then(res => res.json())
-            .then(data => setTrabajadores(data))
+            .then(data => setTrabajadores(data.trabajadores))
             .catch(err => console.error("Error cargando trabajadores", err));
     }, []);
 

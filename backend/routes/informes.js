@@ -9,6 +9,7 @@
 import express from 'express';
 import { getInformeMensual, getInformePorTrabajador } from '../services/informesService.js';
 import { authMiddleware, soloAdmin } from '../middleware/auth.js';
+import { logError } from '../logger.js';
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.get('/mensual', soloAdmin, async (req, res) => {
         const informe = await getInformeMensual(parseInt(anio), parseInt(mes));
         res.json({ ok: true, informe });
     } catch (error) {
-        console.error('Error en GET /informes/mensual:', error);
+        logError('Error en GET /informes/mensual:', error);
         res.status(500).json({ ok: false, message: 'Error al obtener el informe mensual' });
     }
 });
@@ -42,7 +43,7 @@ router.get('/trabajador/:id', soloAdmin, async (req, res) => {
         const informe = await getInformePorTrabajador(parseInt(id), desde, hasta);
         res.json({ ok: true, informe });
     } catch (error) {
-        console.error('Error en GET /informes/trabajador:', error);
+        logError('Error en GET /informes/trabajador:', error);
         res.status(500).json({ ok: false, message: 'Error al obtener el informe del trabajador' });
     }
 });
@@ -60,7 +61,7 @@ router.get('/mio', authMiddleware, async (req, res) => {
         const informe = await getInformePorTrabajador(usuarioId, desde, hasta);
         res.json({ ok: true, informe });
     } catch (error) {
-        console.error('Error en GET /informes/mio:', error);
+        logError('Error en GET /informes/mio:', error);
         res.status(500).json({ ok: false, message: 'Error al obtener tu informe' });
     }
 });

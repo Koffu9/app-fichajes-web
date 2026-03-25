@@ -13,9 +13,9 @@ export function Fichajes() {
         try {
             const params = new URLSearchParams();
             // Usamos filtro.trabajador que viene del selector
-            if (filtro.trabajador) params.append('trabajador', filtro.trabajador);
-            if (filtro.inicio) params.append('inicio', filtro.inicio);
-            if (filtro.fin) params.append('fin', filtro.fin);
+            if (filtro.trabajador) params.append('userId', filtro.trabajador);
+            if (filtro.inicio) params.append('fechaInicio', filtro.inicio);
+            if (filtro.fin) params.append('fechaFin', filtro.fin);
 
             const res = await fetch(`http://localhost:3000/api/fichajes/todos?${params.toString()}`, { 
                 credentials: 'include' 
@@ -25,7 +25,7 @@ export function Fichajes() {
             const data = await res.json();
             
             // Ajuste para manejar la respuesta del backend (data.Fichajes o data)
-            const listaFichajes = Array.isArray(data.Fichajes) ? data.Fichajes : (Array.isArray(data) ? data : []);
+            const listaFichajes = Array.isArray(data.fichajes) ? data.fichajes : [];
             setLogs(listaFichajes);
         } catch (error) {
             console.error("Error al buscar:", error);
@@ -170,7 +170,7 @@ export function Fichajes() {
                         {logs.length > 0 ? logs.map(log => (
                             <tr key={log.id} style={{ borderBottom: '1px solid #eee', backgroundColor: editando && form.id === log.id ? '#fff9f0' : 'white' }}>
                                 <td style={{ padding: '10px' }}>{log.id}</td>
-                                <td style={{ padding: '10px' }}>{log.trabajadorId || log.usuario_id}</td>
+                                <td style={{ padding: '10px' }}>{log.usuario_id}</td>  
                                 <td style={{ padding: '10px' }}>
                                     <span style={{ 
                                         fontWeight: 'bold', 
@@ -182,8 +182,8 @@ export function Fichajes() {
                                         {log.tipo.toUpperCase()}
                                     </span>
                                 </td>
-                                <td style={{ padding: '10px' }}>{log.fecha ? new Date(log.fecha).toLocaleDateString() : '-'}</td>
-                                <td style={{ padding: '10px' }}>{log.hora}</td>
+                                <td style={{ padding: '10px' }}>{new Date(log.fecha_hora).toLocaleDateString()}</td> 
+                                <td style={{ padding: '10px' }}>{new Date(log.fecha_hora).toLocaleTimeString()}</td>
                                 <td style={{ padding: '10px' }}>
                                     <button 
                                         onClick={() => prepararEdicion(log)} 

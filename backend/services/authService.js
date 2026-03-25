@@ -34,7 +34,7 @@ export async function loginService(email, password) {
     }
   };
   } catch (error) {
-        logError('calcularYAlertarJornada', error);
+        logError('loginService', error);
         throw error;
     }
 }

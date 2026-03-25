@@ -1,13 +1,14 @@
+/* Dashboard.module.css */
+
 .container {
     padding: 2rem;
-    /* Fuente del index.css */
     font-family: 'Open Sans', Helvetica, Arial, Lucida, sans-serif;
-    background-color: #f9f9f9; /* Fondo claro del index */
+    background-color: #f9f9f9; 
     min-height: 100vh;
 }
 
 .title {
-    color: #1a3a4a; /* Azul principal */
+    color: #1a3a4a; 
     margin-bottom: 2rem;
     font-size: 2rem;
 }
@@ -44,7 +45,7 @@
     margin: 10px 0 0;
     font-size: 2rem;
     font-weight: bold;
-    color: #264653; /* Segundo azul */
+    color: #264653; 
 }
 
 .navBar {
@@ -54,11 +55,12 @@
     display: flex;
     gap: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 2rem; /* Espacio extra inferior */
 }
 
 .link {
     text-decoration: none;
-    color: #1a3a4a; /* Azul principal */
+    color: #1a3a4a; 
     font-weight: 600;
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -67,9 +69,87 @@
 
 .link:hover {
     background-color: rgba(245, 166, 35, 0.1); 
-    color: #f5a623; /* Texto naranja en el hover */
+    color: #f5a623; 
 }
 
 .separator {
     color: #ddd;
 }
+
+/* --- NUEVAS MEJORAS AÑADIDAS --- */
+
+/* Contenedor para tablas con scroll y sombra */
+.tableWrapper {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table thead {
+    background-color: #1a3a4a;
+    color: white;
+}
+
+.table th, .table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.table tbody tr:hover {
+    background-color: #f8fafb;
+}
+
+/* Inputs, Selects y Botones de formulario */
+.inputField {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline-color: #f5a623;
+}
+
+.btnPrimary {
+    background-color: #1a3a4a;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btnPrimary:hover {
+    background-color: #264653;
+}
+
+.btnSecondary {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #7f8c8d;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Badges para el Tipo de Fichaje */
+.statusBadge {
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.entrada { background-color: #e8f5e9; color: #2e7d32; }
+.salida { background-color: #ffebee; color: #c62828; }
+.pausa { background-color: #fff3e0; color: #ef6c00; }

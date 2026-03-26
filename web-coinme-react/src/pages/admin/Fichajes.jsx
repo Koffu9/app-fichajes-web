@@ -159,7 +159,7 @@ export function Fichajes() {
                     <thead>
                         <tr style={{ background: '#264653', color: 'white', textAlign: 'left' }}>
                             <th style={{ padding: '12px' }}>ID</th>
-                            <th style={{ padding: '12px' }}>ID Trabajador</th>
+                            <th style={{ padding: '12px' }}>Nombre</th>
                             <th style={{ padding: '12px' }}>Tipo</th>
                             <th style={{ padding: '12px' }}>Fecha</th>
                             <th style={{ padding: '12px' }}>Hora</th>
@@ -170,7 +170,7 @@ export function Fichajes() {
                         {logs.length > 0 ? logs.map(log => (
                             <tr key={log.id} style={{ borderBottom: '1px solid #eee', backgroundColor: editando && form.id === log.id ? '#fff9f0' : 'white' }}>
                                 <td style={{ padding: '10px' }}>{log.id}</td>
-                                <td style={{ padding: '10px' }}>{log.usuario_id}</td>  
+                                <td style={{ padding: '10px' }}>{log.nombre} {log.apellidos}</td>  
                                 <td style={{ padding: '10px' }}>
                                     <span style={{ 
                                         fontWeight: 'bold', 

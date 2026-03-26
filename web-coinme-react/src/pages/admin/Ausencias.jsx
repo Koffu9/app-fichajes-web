@@ -24,7 +24,7 @@ export function Ausencias() {
 
             const res = await fetch(`http://localhost:3000/api/ausencias?${params.toString()}`, { credentials: 'include' });
             const data = await res.json();
-            setAusencias(Array.isArray(data) ? data : []);
+            setAusencias(Array.isArray(data.ausencias) ? data.ausencias : []);
         } catch (error) {
             console.error("Error al cargar ausencias:", error);
         }
@@ -34,7 +34,7 @@ export function Ausencias() {
         try {
             const res = await fetch('http://localhost:3000/api/ausencias/motivos', { credentials: 'include' });
             const data = await res.json();
-            setMotivos(data);
+            setMotivos(data.motivos || []);
         } catch (error) {
             console.error("Error al cargar motivos:", error);
         }

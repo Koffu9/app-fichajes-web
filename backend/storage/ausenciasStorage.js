@@ -25,6 +25,7 @@ export async function obtenerAusencias(anio = null, usuarioId = null, motivoId =
     let query = `
         SELECT 
             a.id,
+            a.motivo_id,
             u.nombre,
             u.apellidos,
             m.nombre AS motivo,

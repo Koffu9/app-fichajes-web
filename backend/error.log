@@ -1,0 +1,26 @@
+[2026-03-26T08:36:04.645Z] [loginService] Error
+[2026-03-26T08:36:04.645Z] [POST /auth/login] Error
+[2026-03-26T08:36:11.859Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:36:11.866Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:36:20.972Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:36:20.976Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:36:25.318Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:36:25.323Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:36:53.048Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:36:53.053Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:37:46.024Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:37:46.030Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:37:59.746Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:37:59.751Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:38:00.973Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:38:00.977Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:40:06.114Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:40:06.115Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:40:33.640Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:40:33.641Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:42:08.647Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:43:28.539Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:43:28.540Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:43:30.989Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:43:30.993Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-03-26T08:43:37.747Z] [GET /usuarios/resumen] getResumenDashboard is not defined

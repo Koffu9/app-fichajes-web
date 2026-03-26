@@ -6,9 +6,9 @@ export function Dashboard() {
     const [resumen, setResumen] = useState({ activos: 0, alertas: 0 });
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/admin/resumen', { credentials: 'include' })
+        fetch('http://localhost:3000/api/usuarios/resumen', { credentials: 'include' })
             .then(res => res.json())
-            .then(data => setResumen(data))
+            .then(data => setResumen({ activos: data.activos, alertas: data.alertas }))
             .catch(err => console.error("Error cargando resumen:", err));
     }, []);
 

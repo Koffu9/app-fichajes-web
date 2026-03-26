@@ -1,5 +1,5 @@
 import express from 'express';
-import { getTrabajadores } from '../services/usuariosService.js';
+import { getTrabajadores, getResumenDashboard } from '../services/usuariosService.js';
 import { soloAdmin } from '../middleware/auth.js';
 import { logError } from '../logger.js';
 

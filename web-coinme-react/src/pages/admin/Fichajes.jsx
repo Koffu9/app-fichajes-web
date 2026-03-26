@@ -80,7 +80,7 @@ export function Fichajes() {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px', fontFamily: 'Open Sans' }}>
             <h2>Gestión de Fichajes (Administración)</h2>
 
             {/* Filtros con Selector */}
@@ -117,7 +117,7 @@ export function Fichajes() {
             <div style={{ margin: '20px 0', padding: '15px', border: '1px solid #ddd', backgroundColor: editando ? '#fff9f0' : 'transparent', borderRadius: '8px' }}>
                 <h3>{editando ? '⚠️ Editando Registro' : '➕ Nuevo Fichaje Manual'}</h3>
                 <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                         <small>Seleccionar Trabajador:</small>
                         {/* Añadido value para sincronizar con prepararEdicion */}
                         <TrabajadorSelector 
@@ -126,7 +126,7 @@ export function Fichajes() {
                         />
                     </div>
                     
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                         <small>Acción:</small>
                         <select value={form.tipo} onChange={e => setForm({...form, tipo: e.target.value})} style={{ padding: '5px', height: '30px' }}>
                             <option value="entrada">Entrada</option>
@@ -136,12 +136,12 @@ export function Fichajes() {
                         </select>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column' , gap: '3px'}}>
                         <small>Fecha:</small>
                         <input type="date" required value={form.fecha} onChange={e => setForm({...form, fecha: e.target.value})} style={{ height: '25px' }} />
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column' , gap: '3px'}}>
                         <small>Hora:</small>
                         <input type="time" required value={form.hora} onChange={e => setForm({...form, hora: e.target.value})} style={{ height: '25px' }} />
                     </div>

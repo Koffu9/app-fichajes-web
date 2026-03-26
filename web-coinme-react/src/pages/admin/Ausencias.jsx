@@ -97,7 +97,7 @@ export function Ausencias() {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px' , fontFamily: 'Open Sans' }}>
             <h2>Gestión de Ausencias</h2>
 
             {/* SECCIÓN FILTROS */}

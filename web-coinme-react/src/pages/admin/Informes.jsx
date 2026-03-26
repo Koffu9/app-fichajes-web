@@ -41,7 +41,7 @@ export function Informes() {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px', fontFamily: 'Open Sans' }}>
             <h2>Informes</h2>
 
             <div style={{ display: 'flex', gap: '15px', marginBottom: '20px', alignItems: 'center' }}>

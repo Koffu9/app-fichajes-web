@@ -132,6 +132,11 @@ export function Informes() {
                 ) : (
                     <p>No hay datos para mostrar. Selecciona los filtros y pulsa Generar.</p>
                 )}
+                {idTrabajador && (
+    <p style={{ fontWeight: 'bold', marginTop: '15px', textAlign: 'right', fontSize: '1.1rem' }}>
+        Total horas trabajadas: {datos.reduce((acc, d) => acc + parseFloat(d.horas_trabajadas), 0).toFixed(2)}h
+    </p>
+)}
             </div>
         </div>
     );

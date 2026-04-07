@@ -24,3 +24,6 @@
 [2026-03-26T08:43:30.989Z] [GET /usuarios/resumen] getResumenDashboard is not defined
 [2026-03-26T08:43:30.993Z] [GET /usuarios/resumen] getResumenDashboard is not defined
 [2026-03-26T08:43:37.747Z] [GET /usuarios/resumen] getResumenDashboard is not defined
+[2026-04-07T09:55:47.937Z] [calcularYAlertarJornada] Column 'hora_entrada' cannot be null
+[2026-04-07T09:55:47.938Z] [registrarFichaje] Column 'hora_entrada' cannot be null
+[2026-04-07T09:55:47.938Z] [Error en POST /fichajes/fichar:] Column 'hora_entrada' cannot be null

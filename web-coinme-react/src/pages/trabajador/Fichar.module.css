@@ -1,0 +1,209 @@
+/* Fichar.module.css */
+
+.container {
+    padding: 30px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.titulo {
+    color: #1a3a4a;
+}
+
+.reloj {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #264653;
+}
+
+.fecha {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.card {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    border: 1px solid #ddd;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.motivoLabel {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.motivoSelect {
+    padding: 10px;
+    border-radius: 5px;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+.botonesWrap {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btnFichar {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: transform 0.1s;
+    cursor: pointer;
+}
+
+.btnFicharDisabled {
+    cursor: not-allowed;
+}
+
+.btnEntrada {
+    background-color: #28a745;
+}
+
+.btnSalida {
+    background-color: #dc3545;
+}
+
+.btnDeshabilitado {
+    background-color: #6c757d;
+}
+
+.btnPausa {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    background-color: #ffc107;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ultimoFichaje {
+    margin-top: 25px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.ultimoFichajeTexto {
+    margin: 0;
+    color: #555;
+}
+
+.ultimoFichajeTipo {
+    color: #264653;
+}
+
+.separador {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 40px 0;
+}
+
+.btnInformes {
+    display: inline-block;
+    padding: 10px 30px;
+    background-color: #264653;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.historialTitulo {
+    color: #1a3a4a;
+}
+
+.filtrosWrap {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputFecha {
+    padding: 8px;
+}
+
+.btnFiltrar {
+    padding: 8px 20px;
+    cursor: pointer;
+    background-color: #264653;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.tablaWrap {
+    max-width: 800px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+}
+
+.tablaHeader {
+    background: #264653;
+    color: white;
+}
+
+.tablaHeader th {
+    padding: 12px;
+}
+
+.tablaCeldaPar {
+    background-color: #fff;
+}
+
+.tablaCeldaImpar {
+    background-color: #fcfcfc;
+}
+
+.tablaFila td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.tipoTexto {
+    font-weight: bold;
+}
+
+.motivoTexto {
+    color: #777;
+}
+
+.filtrosWrap {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnReset {
+    padding: 8px 20px;
+    cursor: pointer;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}

@@ -83,10 +83,9 @@ export async function obtenerFichajesPorUsuario(usuarioId, desde = null, hasta =
     let query = 'SELECT * FROM fichajes WHERE usuario_id = ?';
     const params = [usuarioId];
 
-    //Si se le pasa una fecha de inicio y una de final, filtrará por fechas.
     if (desde && hasta) {
         query += ' AND fecha_hora BETWEEN ? AND ?';
-        params.push(desde, hasta);
+        params.push(desde, hasta + ' 23:59:59'); // ← añadir el 23:59:59
     }
 
     query += ' ORDER BY fecha_hora ASC';

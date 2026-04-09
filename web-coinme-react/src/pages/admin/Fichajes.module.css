@@ -1,0 +1,233 @@
+.container {
+    padding: 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.titulo {
+    color: #1a3a4a;
+    margin-bottom: 20px;
+}
+
+/* FILTROS */
+.filtrosWrap {
+    display: flex;
+    gap: 10px;
+    background: white;
+    padding: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+}
+
+.filtroGrupo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filtroLabel {
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 600;
+}
+
+.inputFecha {
+    padding: 7px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 32px;
+}
+
+.botonesWrap {
+    display: flex;
+    gap: 5px;
+    align-items: flex-end;
+}
+
+.btnFiltrar {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: #264653;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.btnLimpiar {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.separador {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* FORMULARIO ALTA/EDICIÓN */
+.formWrap {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    background: white;
+}
+
+.formWrapEditando {
+    background-color: #fff9f0;
+}
+
+.formTitulo {
+    margin-bottom: 12px;
+    color: #1a3a4a;
+}
+
+.form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.formGrupo {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.formLabel {
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 600;
+}
+
+.inputForm {
+    height: 30px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.selectForm {
+    height: 30px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btnAlta {
+    padding: 8px 15px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #007bff;
+}
+
+.btnGuardar {
+    padding: 8px 15px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #ffa500;
+}
+
+.btnCancelar {
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background: white;
+}
+
+/* TABLA */
+.tablaWrap {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.tablaHeader {
+    background: #264653;
+    color: white;
+    text-align: left;
+}
+
+.tablaHeader th {
+    padding: 12px;
+}
+
+.tablaFila td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.tablaFilaEditando {
+    background-color: #fff9f0;
+}
+
+.badge {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.badgeEntrada {
+    color: #28a745;
+    background: #e8f5e9;
+}
+
+.badgeSalida {
+    color: #dc3545;
+    background: #ffebee;
+}
+
+.badgePausa {
+    color: #f39c12;
+    background: #fef9e7;
+}
+
+.btnEditar {
+    cursor: pointer;
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid #264653;
+    color: #007bff;
+    background: white;
+}
+
+.btnNuevoFichaje {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: #264653;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.contador {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}

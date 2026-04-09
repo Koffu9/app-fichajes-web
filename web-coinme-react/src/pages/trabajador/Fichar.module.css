@@ -198,12 +198,3 @@
     justify-content: center;
     align-items: center;
 }
-
-.btnReset {
-    padding: 8px 20px;
-    cursor: pointer;
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    border-radius: 4px;
-}

@@ -27,3 +27,9 @@
 [2026-04-07T09:55:47.937Z] [calcularYAlertarJornada] Column 'hora_entrada' cannot be null
 [2026-04-07T09:55:47.938Z] [registrarFichaje] Column 'hora_entrada' cannot be null
 [2026-04-07T09:55:47.938Z] [Error en POST /fichajes/fichar:] Column 'hora_entrada' cannot be null
+[2026-04-08T23:50:44.468Z] [altaFichajeAdmin] Column 'usuario_id' cannot be null
+[2026-04-08T23:50:44.469Z] [Error en POST /fichajes/alta:] Column 'usuario_id' cannot be null
+[2026-04-08T23:51:04.976Z] [altaFichajeAdmin] Column 'usuario_id' cannot be null
+[2026-04-08T23:51:04.977Z] [Error en POST /fichajes/alta:] Column 'usuario_id' cannot be null
+[2026-04-08T23:51:34.855Z] [altaFichajeAdmin] Column 'usuario_id' cannot be null
+[2026-04-08T23:51:34.856Z] [Error en POST /fichajes/alta:] Column 'usuario_id' cannot be null

@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
+import styles from './Informes.module.css';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export function Informes() {
     const [datos, setDatos] = useState([]);
-    // --- NUEVOS ESTADOS ---
     const [trabajadores, setTrabajadores] = useState([]);
     const [idTrabajador, setIdTrabajador] = useState('');
     const [fechaDesde, setFechaDesde] = useState('');
     const [fechaHasta, setFechaHasta] = useState('');
 
-    // --- CARGAR LISTA DE TRABAJADORES AL INICIAR ---
     useEffect(() => {
         fetch('http://localhost:3000/api/usuarios/trabajadores', { credentials: 'include' })
             .then(res => res.json())
@@ -20,10 +21,8 @@ export function Informes() {
         let url = '';
 
         if (idTrabajador) {
-            // 1. SI HAY TRABAJADOR: Informe específico por rango de fechas
             url = `http://localhost:3000/api/informes/trabajador/${idTrabajador}?desde=${fechaDesde}&hasta=${fechaHasta}`;
         } else {
-            // 2. SI NO HAY TRABAJADOR: Informe mensual general (sacamos mes/año de fechaDesde)
             const fecha = new Date(fechaDesde);
             const mes = fecha.getMonth() + 1;
             const anio = fecha.getFullYear();
@@ -34,109 +33,141 @@ export function Informes() {
             const res = await fetch(url, { credentials: 'include' });
             const data = await res.json();
             setDatos(data.informe || []);
-
         } catch (error) {
             console.error("Error al generar el informe", error);
         }
     };
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Open Sans' }}>
-            <h2>Informes</h2>
+        <div className={styles.container}>
+            <h2 className={styles.titulo}>Informes</h2>
 
-            <div style={{ display: 'flex', gap: '15px', marginBottom: '20px', alignItems: 'center' }}>
-                {/* Desplegable de trabajadores */}
-                <select
-                    value={idTrabajador}
-                    onChange={(e) => setIdTrabajador(e.target.value)}
-                    style={{ padding: '8px', borderRadius: '5px' }}
-                >
-                    <option value="">-- Todos los trabajadores (Mensual) --</option>
-                    {trabajadores.map(t => (
-                        <option key={t.id} value={t.id}>
-                            {t.nombre} {t.apellidos}
-                        </option>
-                    ))}
-                </select>
-
-                {/* Filtros de fecha */}
-                <label>Desde:
-                    <input type="date" value={fechaDesde} onChange={(e) => setFechaDesde(e.target.value)} />
-                </label>
-
+            <div className={styles.filtrosWrap}>
+                <div className={styles.filtroGrupo}>
+                    <span className={styles.filtroLabel}>Trabajador:</span>
+                    <select
+                        value={idTrabajador}
+                        onChange={(e) => setIdTrabajador(e.target.value)}
+                        className={styles.select}
+                    >
+                        <option value="">-- Todos los trabajadores (Mensual) --</option>
+                        {trabajadores.map(t => (
+                            <option key={t.id} value={t.id}>
+                                {t.nombre} {t.apellidos}
+                            </option>
+                        ))}
+                    </select>
+                </div>
                 {idTrabajador && (
-                    <label>Hasta:
-                        <input type="date" value={fechaHasta} onChange={(e) => setFechaHasta(e.target.value)} />
-                    </label>
+                <div className={styles.filtroGrupo}>
+                    <span className={styles.filtroLabel}>Desde:</span>
+                    <DatePicker
+                        selected={fechaDesde ? new Date(fechaDesde) : null}
+                        onChange={date => {
+                            if (date) {
+                                const yyyy = date.getFullYear();
+                                const mm = String(date.getMonth() + 1).padStart(2, '0');
+                                const dd = String(date.getDate()).padStart(2, '0');
+                                setFechaDesde(`${yyyy}-${mm}-${dd}`);
+                            } else {
+                                setFechaDesde('');
+                            }
+                        }}
+                        dateFormat="dd/MM/yyyy"
+                        placeholderText="Seleccionar fecha"
+                        className={styles.inputFecha}
+                    />
+                </div>
+                )}
+                {idTrabajador && (
+                    <div className={styles.filtroGrupo}>
+                        <span className={styles.filtroLabel}>Hasta:</span>
+                        <DatePicker
+                            selected={fechaHasta ? new Date(fechaHasta) : null}
+                            onChange={date => {
+                                if (date) {
+                                    const yyyy = date.getFullYear();
+                                    const mm = String(date.getMonth() + 1).padStart(2, '0');
+                                    const dd = String(date.getDate()).padStart(2, '0');
+                                    setFechaHasta(`${yyyy}-${mm}-${dd}`);
+                                } else {
+                                    setFechaHasta('');
+                                }
+                            }}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Seleccionar fecha"
+                            className={styles.inputFecha}
+                        />
+                    </div>
                 )}
 
-                <button
-                    onClick={generar}
-                    style={{ backgroundColor: '#264653', color: 'white', padding: '8px 15px', borderRadius: '5px', cursor: 'pointer' }}
-                >
+                <button onClick={generar} className={styles.btnGenerar}>
                     Generar Informe
                 </button>
             </div>
 
-            {/* Tabla de resultados (puedes mapear 'datos' aquí) */}
-            <div className="resultados">
+            <div className={styles.resultados}>
                 {datos.length > 0 ? (
-                    <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
-                        <thead>
-                            <tr style={{ background: '#264653', color: 'white', textAlign: 'left' }}>
-                                {idTrabajador ? (
-                                    <>
-                                        <th style={{ padding: '10px' }}>Fecha</th>
-                                        <th style={{ padding: '10px' }}>Entrada</th>
-                                        <th style={{ padding: '10px' }}>Salida</th>
-                                        <th style={{ padding: '10px' }}>Horas trabajadas</th>
-                                        <th style={{ padding: '10px' }}>Horas pausa</th>
-                                        <th style={{ padding: '10px' }}>Jornada completa</th>
-                                    </>
-                                ) : (
-                                    <>
-                                        <th style={{ padding: '10px' }}>Trabajador</th>
-                                        <th style={{ padding: '10px' }}>Días trabajados</th>
-                                        <th style={{ padding: '10px' }}>Horas totales</th>
-                                        <th style={{ padding: '10px' }}>Jornadas completas</th>
-                                        <th style={{ padding: '10px' }}>Jornadas incompletas</th>
-                                    </>
-                                )}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {datos.map((d, i) => (
-                                <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
-                                    {idTrabajador ? (
-                                        <>
-                                            <td style={{ padding: '10px' }}>{new Date(d.fecha).toLocaleDateString()}</td>
-                                            <td style={{ padding: '10px' }}>{new Date(d.hora_entrada).toLocaleTimeString()}</td>
-                                            <td style={{ padding: '10px' }}>{new Date(d.hora_salida).toLocaleTimeString()}</td>
-                                            <td style={{ padding: '10px' }}>{d.horas_trabajadas}h</td>
-                                            <td style={{ padding: '10px' }}>{d.horas_pausa}h</td>
-                                            <td style={{ padding: '10px' }}>{d.jornada_completa ? '✓' : '✗'}</td>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <td style={{ padding: '10px' }}>{d.nombre} {d.apellidos}</td>
-                                            <td style={{ padding: '10px' }}>{d.dias_trabajados}</td>
-                                            <td style={{ padding: '10px' }}>{d.horas_totales}h</td>
-                                            <td style={{ padding: '10px' }}>{d.jornadas_completas}</td>
-                                            <td style={{ padding: '10px' }}>{d.jornadas_incompletas}</td>
-                                        </>
-                                    )}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <>
+                        <div className={styles.tablaWrap}>
+                            <table className={styles.tabla}>
+                                <thead className={styles.tablaHeader}>
+                                    <tr>
+                                        {idTrabajador ? (
+                                            <>
+                                                <th>Fecha</th>
+                                                <th>Entrada</th>
+                                                <th>Salida</th>
+                                                <th>Horas trabajadas</th>
+                                                <th>Horas pausa</th>
+                                                <th>Jornada completa</th>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <th>Trabajador</th>
+                                                <th>Días trabajados</th>
+                                                <th>Horas totales</th>
+                                                <th>Jornadas completas</th>
+                                                <th>Jornadas incompletas</th>
+                                            </>
+                                        )}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {datos.map((d, i) => (
+                                        <tr key={i} className={styles.tablaFila}>
+                                            {idTrabajador ? (
+                                                <>
+                                                    <td>{new Date(d.fecha).toLocaleDateString()}</td>
+                                                    <td>{new Date(d.hora_entrada).toLocaleTimeString()}</td>
+                                                    <td>{new Date(d.hora_salida).toLocaleTimeString()}</td>
+                                                    <td>{d.horas_trabajadas}h</td>
+                                                    <td>{d.horas_pausa}h</td>
+                                                    <td>{d.jornada_completa ? '✓' : '✗'}</td>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <td>{d.nombre} {d.apellidos}</td>
+                                                    <td>{d.dias_trabajados}</td>
+                                                    <td>{d.horas_totales}h</td>
+                                                    <td>{d.jornadas_completas}</td>
+                                                    <td>{d.jornadas_incompletas}</td>
+                                                </>
+                                            )}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        {idTrabajador && (
+                            <p className={styles.totalHoras}>
+                                Total horas trabajadas: {datos.reduce((acc, d) => acc + parseFloat(d.horas_trabajadas), 0).toFixed(2)}h
+                            </p>
+                        )}
+                    </>
                 ) : (
-                    <p>No hay datos para mostrar. Selecciona los filtros y pulsa Generar.</p>
+                    <p className={styles.sinDatos}>No hay datos para mostrar. Selecciona los filtros y pulsa Generar.</p>
                 )}
-                {idTrabajador && (
-    <p style={{ fontWeight: 'bold', marginTop: '15px', textAlign: 'right', fontSize: '1.1rem' }}>
-        Total horas trabajadas: {datos.reduce((acc, d) => acc + parseFloat(d.horas_trabajadas), 0).toFixed(2)}h
-    </p>
-)}
             </div>
         </div>
     );

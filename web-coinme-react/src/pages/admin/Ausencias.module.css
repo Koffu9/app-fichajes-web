@@ -1,0 +1,186 @@
+/* Ausencias.module.css */
+
+.container {
+    padding: 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.titulo {
+    color: #1a3a4a;
+    margin-bottom: 20px;
+}
+
+/* FILTROS */
+.filtrosWrap {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    flex-wrap: wrap;
+}
+
+.filtroGrupo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filtroLabel {
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 600;
+}
+
+.inputAnio {
+    padding: 7px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100px;
+    height: 35px;
+}
+
+.btnLimpiar {
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+/* FORMULARIO */
+.formWrap {
+    border: 1px solid #eee;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.formWrapEditando {
+    background-color: #fff9f0;
+}
+
+.formTitulo {
+    color: #1a3a4a;
+    margin-bottom: 15px;
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.formGrupo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.formLabel {
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 600;
+}
+
+.selectForm {
+    padding: 7px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 35px;
+}
+
+.inputForm {
+    padding: 7px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 35px;
+}
+
+.inputObservaciones {
+    padding: 7px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 35px;
+    width: 200px;
+}
+
+.btnGuardar {
+    padding: 8px 20px;
+    background: #264653;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btnCancelar {
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background: white;
+}
+
+/* TABLA */
+.tablaWrap {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tablaHeader {
+    background: #264653;
+    color: white;
+    text-align: left;
+}
+
+.tablaHeader th {
+    padding: 10px;
+}
+
+.tablaFila td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.btnEditar {
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid #007bff;
+    color: #007bff;
+    background: white;
+    cursor: pointer;
+}
+
+.sinDatos {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.btnNuevaAusencia {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: #264653;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}

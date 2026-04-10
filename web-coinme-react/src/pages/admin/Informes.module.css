@@ -1,0 +1,104 @@
+/* Informes.module.css */
+
+.container {
+    padding: 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.titulo {
+    color: #1a3a4a;
+    margin-bottom: 20px;
+}
+
+.filtrosWrap {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+}
+
+.filtroGrupo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filtroLabel {
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 600;
+}
+
+.select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    height: 35px;
+}
+
+.inputFecha {
+    padding: 7px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 35px;
+}
+
+.btnGenerar {
+    padding: 8px 15px;
+    background-color: #264653;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    height: 35px;
+}
+
+.resultados {
+    margin-top: 20px;
+}
+
+.tablaWrap {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tablaHeader {
+    background: #264653;
+    color: white;
+    text-align: left;
+}
+
+.tablaHeader th {
+    padding: 10px;
+}
+
+.tablaFila td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.totalHoras {
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: right;
+    font-size: 1.1rem;
+}
+
+.sinDatos {
+    color: #666;
+    margin-top: 20px;
+}

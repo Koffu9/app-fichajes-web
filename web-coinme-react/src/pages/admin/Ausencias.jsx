@@ -1,27 +1,27 @@
 import { useState, useEffect } from 'react';
 import { TrabajadorSelector } from '../../components/TrabajadorSelector';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import styles from './Ausencias.module.css';
 
 export function Ausencias() {
     const [ausencias, setAusencias] = useState([]);
     const [motivos, setMotivos] = useState([]);
     const [filtro, setFiltro] = useState({ usuarioId: '', anio: '' });
-    
     const [form, setForm] = useState({ id: null, usuarioId: '', motivoId: '', fechaInicio: '', fechaFin: '', observaciones: '' });
     const [editando, setEditando] = useState(false);
+    const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
-    // 1. Cargar datos iniciales
     useEffect(() => {
         cargarAusencias();
         cargarMotivos();
     }, []);
 
-    // 2. Cargar ausencias (con o sin filtros)
     const cargarAusencias = async (uId = filtro.usuarioId, anio = filtro.anio) => {
         try {
             const params = new URLSearchParams();
             if (uId) params.append('usuarioId', uId);
             if (anio) params.append('anio', anio);
-
             const res = await fetch(`http://localhost:3000/api/ausencias?${params.toString()}`, { credentials: 'include' });
             const data = await res.json();
             setAusencias(Array.isArray(data.ausencias) ? data.ausencias : []);
@@ -40,7 +40,6 @@ export function Ausencias() {
         }
     };
 
-    // 3. Manejo de Filtros
     const handleFiltroUsuario = (id) => {
         const nuevoFiltro = { usuarioId: id, anio: id ? filtro.anio : '' };
         setFiltro(nuevoFiltro);
@@ -58,15 +57,13 @@ export function Ausencias() {
         cargarAusencias('', '');
     };
 
-    // 4. Formulario: Alta y Edición
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = editando 
-            ? `http://localhost:3000/api/ausencias/${form.id}` 
+        const url = editando
+            ? `http://localhost:3000/api/ausencias/${form.id}`
             : 'http://localhost:3000/api/ausencias';
-        
         const body = { ...form };
-        if (editando) delete body.usuarioId; // Según tu instrucción: sin usuarioId en PUT
+        if (editando) delete body.usuarioId;
 
         await fetch(url, {
             method: editando ? 'PUT' : 'POST',
@@ -84,7 +81,7 @@ export function Ausencias() {
         setForm({
             id: aus.id,
             usuarioId: aus.usuarioId,
-            motivoId: aus.motivoId,
+            motivoId: aus.motivo_id,
             fechaInicio: aus.fecha_inicio.split('T')[0],
             fechaFin: aus.fecha_fin.split('T')[0],
             observaciones: aus.observaciones || ''
@@ -96,92 +93,127 @@ export function Ausencias() {
         setForm({ id: null, usuarioId: '', motivoId: '', fechaInicio: '', fechaFin: '', observaciones: '' });
     };
 
+    const formatDate = (date) => {
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    };
+
     return (
-        <div style={{ padding: '20px' , fontFamily: 'Open Sans' }}>
-            <h2>Gestión de Ausencias</h2>
+        <div className={styles.container}>
+            <h2 className={styles.titulo}>Gestión de Ausencias</h2>
 
-            {/* SECCIÓN FILTROS */}
-            <div style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '20px', background: '#f4f4f4', padding: '15px', borderRadius: '8px' }}>
-                <TrabajadorSelector value={filtro.usuarioId} onSelect={handleFiltroUsuario} />
-                
+            <div className={styles.filtrosWrap}>
+                <div className={styles.filtroGrupo}>
+                    <span className={styles.filtroLabel}>Trabajador:</span>
+                    <TrabajadorSelector value={filtro.usuarioId} onSelect={handleFiltroUsuario} />
+                </div>
                 {filtro.usuarioId && (
-                    <input 
-                        type="number" 
-                        placeholder="Año (ej: 2026)" 
-                        value={filtro.anio} 
-                        onChange={handleFiltroAnio}
-                        style={{ padding: '5px', width: '100px' }}
-                    />
+                    <div className={styles.filtroGrupo}>
+                        <span className={styles.filtroLabel}>Año:</span>
+                        <input
+                            type="number"
+                            placeholder="ej: 2026"
+                            value={filtro.anio}
+                            onChange={handleFiltroAnio}
+                            className={styles.inputAnio}
+                        />
+                    </div>
                 )}
+                <button onClick={limpiarFiltros} className={styles.btnLimpiar}>Limpiar</button>
+            </div>
                 
-                <button onClick={limpiarFiltros} style={{ padding: '6px 12px', cursor: 'pointer' }}>Limpiar</button>
-            </div>
+<button
+    onClick={() => setMostrarFormulario(!mostrarFormulario)}
+    className={styles.btnNuevaAusencia}
+>
+    {mostrarFormulario ? '✕ Cerrar formulario' : '➕ Registrar Nueva Ausencia'}
+</button>
 
-            {/* FORMULARIO ALTA/EDICIÓN */}
-            <div style={{ border: '1px solid #ccc', padding: '20px', marginBottom: '30px', borderRadius: '8px' }}>
-                <h3>{editando ? 'Editar Ausencia' : 'Registrar Nueva Ausencia'}</h3>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', alignItems: 'flex-end' }}>
-                    {!editando && (
-                        <div>
-                            <small>Trabajador:</small><br/>
-                            <TrabajadorSelector value={form.usuarioId} onSelect={(id) => setForm({...form, usuarioId: id})} />
-                        </div>
-                    )}
-                    <div>
-                        <small>Motivo:</small><br/>
-                        <select required value={form.motivoId} onChange={e => setForm({...form, motivoId: e.target.value})} style={{ padding: '5px' }}>
-                            <option value="">-- Seleccionar --</option>
-                            {motivos.map(m => <option key={m.id} value={m.id}>{m.nombre}</option>)}
-                        </select>
-                    </div>
-                    <div>
-                        <small>Fecha Inicio:</small><br/>
-                        <input type="date" required value={form.fechaInicio} onChange={e => setForm({...form, fechaInicio: e.target.value})} />
-                    </div>
-                    <div>
-                        <small>Fecha Fin:</small><br/>
-                        <input type="date" required value={form.fechaFin} onChange={e => setForm({...form, fechaFin: e.target.value})} />
-                    </div>
-                    <div>
-                        <small>Observaciones:</small><br/>
-                        <input type="text" value={form.observaciones} onChange={e => setForm({...form, observaciones: e.target.value})} placeholder="Opcional..." />
-                    </div>
-                    <button type="submit" style={{ padding: '8px 20px', background: '#264653', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                        {editando ? 'ACTUALIZAR' : 'GUARDAR'}
-                    </button>
-                    {editando && <button type="button" onClick={cancelarEdicion}>Cancelar</button>}
-                </form>
+{mostrarFormulario && (
+    <div className={`${styles.formWrap} ${editando ? styles.formWrapEditando : ''}`}>
+        <h3 className={styles.formTitulo}>{editando ? 'Editar Ausencia' : 'Registrar Nueva Ausencia'}</h3>
+        <form onSubmit={handleSubmit} className={styles.form}>
+            {!editando && (
+                <div className={styles.formGrupo}>
+                    <span className={styles.formLabel}>Trabajador:</span>
+                    <TrabajadorSelector value={form.usuarioId} onSelect={(id) => setForm({...form, usuarioId: id})} />
+                </div>
+            )}
+            <div className={styles.formGrupo}>
+                <span className={styles.formLabel}>Motivo:</span>
+                <select required value={form.motivoId} onChange={e => setForm({...form, motivoId: e.target.value})} className={styles.selectForm}>
+                    <option value="">-- Seleccionar --</option>
+                    {motivos.map(m => <option key={m.id} value={m.id}>{m.nombre}</option>)}
+                </select>
             </div>
+            <div className={styles.formGrupo}>
+                <span className={styles.formLabel}>Fecha Inicio:</span>
+                <DatePicker
+                    selected={form.fechaInicio ? new Date(form.fechaInicio) : null}
+                    onChange={date => setForm({...form, fechaInicio: date ? formatDate(date) : ''})}
+                    dateFormat="dd/MM/yyyy"
+                    placeholderText="Seleccionar fecha"
+                    className={styles.inputForm}
+                />
+            </div>
+            <div className={styles.formGrupo}>
+                <span className={styles.formLabel}>Fecha Fin:</span>
+                <DatePicker
+                    selected={form.fechaFin ? new Date(form.fechaFin) : null}
+                    onChange={date => setForm({...form, fechaFin: date ? formatDate(date) : ''})}
+                    dateFormat="dd/MM/yyyy"
+                    placeholderText="Seleccionar fecha"
+                    className={styles.inputForm}
+                />
+            </div>
+            <div className={styles.formGrupo}>
+                <span className={styles.formLabel}>Observaciones:</span>
+                <input
+                    type="text"
+                    value={form.observaciones}
+                    onChange={e => setForm({...form, observaciones: e.target.value})}
+                    placeholder="Opcional..."
+                    className={styles.inputObservaciones}
+                />
+            </div>
+            <button type="submit" className={styles.btnGuardar}>
+                {editando ? 'ACTUALIZAR' : 'GUARDAR'}
+            </button>
+            {editando && <button type="button" onClick={cancelarEdicion} className={styles.btnCancelar}>Cancelar</button>}
+        </form>
+    </div>
+)}
 
-            {/* TABLA DE RESULTADOS */}
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
-                    <tr style={{ background: '#264653', color: 'white', textAlign: 'left' }}>
-                        <th style={{ padding: '10px' }}>Trabajador</th>
-                        <th style={{ padding: '10px' }}>Motivo</th>
-                        <th style={{ padding: '10px' }}>Fecha Inicio</th>
-                        <th style={{ padding: '10px' }}>Fecha Fin</th>
-                        <th style={{ padding: '10px' }}>Observaciones</th>
-                        <th style={{ padding: '10px' }}>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {ausencias.length > 0 ? ausencias.map(aus => (
-                        <tr key={aus.id} style={{ borderBottom: '1px solid #ddd' }}>
-                            <td style={{ padding: '10px' }}>{aus.nombre} {aus.apellidos}</td>
-                            <td style={{ padding: '10px' }}>{aus.motivo}</td>
-                            <td style={{ padding: '10px' }}>{new Date(aus.fecha_inicio).toLocaleDateString()}</td>
-                            <td style={{ padding: '10px' }}>{new Date(aus.fecha_fin).toLocaleDateString()}</td>
-                            <td style={{ padding: '10px' }}>{aus.observaciones || '-'}</td>
-                            <td style={{ padding: '10px' }}>
-                                <button onClick={() => prepararEdicion(aus)}>Editar</button>
-                            </td>
+            <div className={styles.tablaWrap}>
+                <table className={styles.tabla}>
+                    <thead className={styles.tablaHeader}>
+                        <tr>
+                            <th>Trabajador</th>
+                            <th>Motivo</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Fin</th>
+                            <th>Observaciones</th>
+                            <th>Acciones</th>
                         </tr>
-                    )) : (
-                        <tr><td colSpan="6" style={{ padding: '20px', textAlign: 'center' }}>No hay ausencias registradas.</td></tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {ausencias.length > 0 ? ausencias.map(aus => (
+                            <tr key={aus.id} className={styles.tablaFila}>
+                                <td>{aus.nombre} {aus.apellidos}</td>
+                                <td>{aus.motivo}</td>
+                                <td>{new Date(aus.fecha_inicio).toLocaleDateString()}</td>
+                                <td>{new Date(aus.fecha_fin).toLocaleDateString()}</td>
+                                <td>{aus.observaciones || '-'}</td>
+                                <td><button onClick={() => prepararEdicion(aus)} className={styles.btnEditar}>Editar</button></td>
+                            </tr>
+                        )) : (
+                            <tr><td colSpan="6" className={styles.sinDatos}>No hay ausencias registradas.</td></tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

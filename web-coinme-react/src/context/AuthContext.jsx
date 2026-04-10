@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
         try {
             // Llamamos a la API para saber quién es el usuario actual
-            const res = await fetch('http://localhost:3000/api/auth/me', { 
+            const res = await fetch('/api/auth/me', { 
                 credentials: 'include' 
             });
             
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             // Avisamos al backend para que destruya la sesión
-            await fetch('http://localhost:3000/api/auth/logout', { 
+            await fetch('/api/auth/logout', { 
                 method: 'POST', 
                 credentials: 'include' 
             });

@@ -26,7 +26,10 @@ const PORT = 3000;
 
 // Middlewares
 app.use(cors({
-  origin: 'http://localhost:5173', //Puerto que usa Vite por defecto al hacer npm run dev.
+  origin: [
+  'http://localhost:5173', //Puerto que usa Vite por defecto al hacer npm run dev.
+  'http://localhost:4173'  //Puerto para la PWA
+],
   credentials: true
 }));
 
@@ -38,7 +41,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge: 8 * 60 * 60 * 1000 // 8 horas
+    maxAge: 8 * 60 * 60 * 1000,
+    sameSite: 'lax'
   }
 }));
 

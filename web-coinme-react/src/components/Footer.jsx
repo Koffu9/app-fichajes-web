@@ -20,7 +20,7 @@ export function Footer() {
 
 
     // Footer simplificado para trabajador en móvil
-    if (user?.rol === 'trabajador') {
+    if (user?.rol === 'trabajador' || location.pathname === '/login') {
         return (
             <footer>
                 <div className='footer-wrap'>

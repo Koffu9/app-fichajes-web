@@ -30,11 +30,11 @@ export function Fichar() {
 
     const inicializar = async () => {
         try {
-            const resEstado = await fetch('http://localhost:3000/api/fichajes/estado', { credentials: 'include' });
+            const resEstado = await fetch('/api/fichajes/estado', { credentials: 'include' });
             const dataEstado = await resEstado.json();
             setEstado(dataEstado);
 
-            const resMotivos = await fetch('http://localhost:3000/api/fichajes/motivos-pausa', { credentials: 'include' });
+            const resMotivos = await fetch('/api/fichajes/motivos-pausa', { credentials: 'include' });
             const dataMotivos = await resMotivos.json();
             setMotivos(dataMotivos.motivos || []);
             if (dataMotivos.motivos?.length > 0) setMotivoId(dataMotivos.motivos[0].id);
@@ -49,26 +49,26 @@ export function Fichar() {
         const params = new URLSearchParams();
         params.append('fechaInicio', fechaHoy);
         params.append('fechaFin', fechaHoy);
-        const res = await fetch(`http://localhost:3000/api/fichajes/misFichajes?${params.toString()}`, { credentials: 'include' });
+        const res = await fetch(`/api/fichajes/misFichajes?${params.toString()}`, { credentials: 'include' });
         const data = await res.json();
         setFichajesSession(Array.isArray(data.fichajes) ? data.fichajes : []);
     };
 
     const refrescarTodo = async () => {
-        const res = await fetch('http://localhost:3000/api/fichajes/estado', { credentials: 'include' });
+        const res = await fetch('/api/fichajes/estado', { credentials: 'include' });
         const data = await res.json();
         setEstado(data);
 
         const params = new URLSearchParams();
         params.append('fechaInicio', fechaHoy);
         params.append('fechaFin', fechaHoy);
-        const resHoy = await fetch(`http://localhost:3000/api/fichajes/misFichajes?${params.toString()}`, { credentials: 'include' });
+        const resHoy = await fetch(`/api/fichajes/misFichajes?${params.toString()}`, { credentials: 'include' });
         const dataHoy = await resHoy.json();
         setFichajesSession(Array.isArray(dataHoy.fichajes) ? dataHoy.fichajes : []);
     };
 
     const handleFichar = async () => {
-        await fetch('http://localhost:3000/api/fichajes/fichar', {
+        await fetch('/api/fichajes/fichar', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
@@ -77,7 +77,7 @@ export function Fichar() {
     };
 
     const handlePausa = async () => {
-        await fetch('http://localhost:3000/api/fichajes/descanso', {
+        await fetch('/api/fichajes/descanso', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -91,7 +91,7 @@ export function Fichar() {
         const params = new URLSearchParams();
         params.append('fechaInicio', filtros.desde);
         params.append('fechaFin', filtros.hasta);
-        const res = await fetch(`http://localhost:3000/api/fichajes/misFichajes?${params.toString()}`, { credentials: 'include' });
+        const res = await fetch(`/api/fichajes/misFichajes?${params.toString()}`, { credentials: 'include' });
         const data = await res.json();
         setFichajesSession(Array.isArray(data.fichajes) ? data.fichajes : []);
     };

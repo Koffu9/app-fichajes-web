@@ -19,7 +19,7 @@ export function Header() {
     };
 
     // Header simplificado para trabajador en móvil
-    if (user?.rol === 'trabajador') {
+    if (user?.rol === 'trabajador' || location.pathname === '/login') {
         return (
             <header className="header-trabajador">
                 <img src={logo_nombre} alt="Logo COIMNE" className="header-trabajador-logo" />

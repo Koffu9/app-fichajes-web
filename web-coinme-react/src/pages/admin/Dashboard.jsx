@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './Dashboard.module.css'; // Importamos los estilos
+import styles from './Dashboard.module.css';
+import { AdminNav } from '../../components/AdminNav';
 
 export function Dashboard() {
     const [resumen, setResumen] = useState({ activos: 0, alertas: 0 });
@@ -13,6 +14,8 @@ export function Dashboard() {
     }, []);
 
     return (
+        <>
+        <AdminNav />
         <div className={styles.container}>
             <h1 className={styles.title}>Dashboard Administrador</h1>
             
@@ -28,13 +31,8 @@ export function Dashboard() {
                 </div>
             </div>
 
-            <nav className={styles.navBar}>
-                <Link to="/admin/fichajes" className={styles.link}>Fichajes</Link>
-                <span className={styles.separator}>|</span>
-                <Link to="/admin/informes" className={styles.link}>Informes</Link>
-                <span className={styles.separator}>|</span>
-                <Link to="/admin/ausencias" className={styles.link}>Ausencias</Link>
-            </nav>
+            
         </div>
+        </>
     );
 }

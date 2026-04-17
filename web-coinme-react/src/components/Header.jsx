@@ -22,15 +22,19 @@ export function Header() {
     if (user?.rol === 'trabajador' || location.pathname === '/login') {
         return (
             <header className="header-trabajador">
-                <img src={logo_nombre} alt="Logo COIMNE" className="header-trabajador-logo" />
+                <Link to="/">
+                    <img src={logo_escudo} alt="Logo COIMNE" className="header-trabajador-logo" />
+                </Link>
                 <div className="header-trabajador-socials">
-                    <a href="https://www.facebook.com/people/Colegio-Oficial-de-Ingenieros-de-Minas-del-Noroeste-de-Espa%C3%B1a/100055051765057/" aria-label="Facebook"><FacebookIcon color="#1a3a4a"/></a>
-                    <a href="https://www.linkedin.com/in/colegio-oficial-de-ingenieros-de-minas-del-noroeste-de-espa%C3%B1a-coimne-903331200/" aria-label="LinkedIn"><LinkedInIcon color="#1a3a4a"/></a>
-                    <a href="https://www.youtube.com/channel/UCznCYMJ7_J4hPuUXuQsf4Zg" aria-label="YouTube"><Youtubeicon color="#1a3a4a"/></a>
+                    <a href="https://www.facebook.com/people/Colegio-Oficial-de-Ingenieros-de-Minas-del-Noroeste-de-Espa%C3%B1a/100055051765057/" aria-label="Facebook"><FacebookIcon color="#1a3a4a" /></a>
+                    <a href="https://www.linkedin.com/in/colegio-oficial-de-ingenieros-de-minas-del-noroeste-de-espa%C3%B1a-coimne-903331200/" aria-label="LinkedIn"><LinkedInIcon color="#1a3a4a" /></a>
+                    <a href="https://www.youtube.com/channel/UCznCYMJ7_J4hPuUXuQsf4Zg" aria-label="YouTube"><Youtubeicon color="#1a3a4a" /></a>
                 </div>
-                <button onClick={handleLogout} className="nav-button" style={{ backgroundColor: '#d32f2f' }}>
-                    CERRAR SESIÓN
-                </button>
+                {user && (  // ← solo muestra cerrar sesión si hay usuario
+                    <button onClick={handleLogout} className="nav-button" style={{ backgroundColor: '#c92c2c' }}>
+                        CERRAR SESIÓN
+                    </button>
+                )}
             </header>
         );
     }

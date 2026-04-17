@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './Informes.module.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { AdminNav } from '../../components/AdminNav';
 
 export function Informes() {
     const [datos, setDatos] = useState([]);
@@ -39,6 +40,8 @@ export function Informes() {
     };
 
     return (
+        <>
+        <AdminNav />
         <div className={styles.container}>
             <h2 className={styles.titulo}>Informes</h2>
 
@@ -170,5 +173,6 @@ export function Informes() {
                 )}
             </div>
         </div>
+        </>
     );
 }

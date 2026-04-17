@@ -3,6 +3,7 @@ import { TrabajadorSelector } from '../../components/TrabajadorSelector';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Ausencias.module.css';
+import { AdminNav } from '../../components/AdminNav';
 
 export function Ausencias() {
     const [ausencias, setAusencias] = useState([]);
@@ -101,6 +102,8 @@ export function Ausencias() {
     };
 
     return (
+        <>
+        <AdminNav />
         <div className={styles.container}>
             <h2 className={styles.titulo}>Gestión de Ausencias</h2>
 
@@ -215,5 +218,6 @@ export function Ausencias() {
                 </table>
             </div>
         </div>
+        </>
     );
 }
